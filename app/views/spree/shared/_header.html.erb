@@ -1,0 +1,18 @@
+<%# leaving #spree-header div for legacy support  %>
+<div id="navbar">
+  <navbar
+    :routes="{
+      startFramingPath: '<%= spree.root_path %>',
+      accountPath: '<%= spree.account_path %>',
+      cartPath: '<%= spree.cart_path %>',
+      ensureCartPath: '<%= spree.ensure_cart_path %>',
+      getCartPath: '<%= spree.api_v2_storefront_cart_path %>',
+      removeLineItemPath: '<%= spree.cart_remove_line_item_api_v2_storefront_cart_path(':id') %>',
+      allProductsPath: '<%= spree.frames_path %>',
+      digitalUploadPath: '<%= digital_upload_path %>',
+      originalArtUploadPath: '<%= original_art_upload_path %>',
+    }"
+    :initial-cart-count="<%= simple_current_order&.frames_line_items_count || 0 %>"
+  >
+  </navbar>
+</div>

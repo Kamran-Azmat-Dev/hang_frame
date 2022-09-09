@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  postgres:
+    image: "postgres:12-alpine"
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: hangframing
+      POSTGRES_DB: hangframing_ecommerce_development
+    ports:
+      - "11000:5432"
+  redis:
+    image: "redis:6.2"
+    restart: always
+    ports:
+      - "11001:6379"

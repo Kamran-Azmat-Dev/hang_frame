@@ -1,0 +1,29 @@
+<div id="cart-page" class="w-full max-w-screen-xl px-6 mx-auto md:mt-29 mb-25">
+  <cart-page
+    class="md:mt-18"
+    :trees-for-life-product="<%= @trees_for_life_product_decorator.present? ? JSON.dump(@trees_for_life_product_decorator.to_h) : 'undefined' %>"
+    :gift-wrap-product="<%= @gift_wrap_product_decorator.present? ? JSON.dump(@gift_wrap_product_decorator.to_h) : 'undefined' %>"
+    :pickup-product="<%= @pickup_product_decorator.present? ? JSON.dump(@pickup_product_decorator.to_h) : 'undefined' %>"
+    :available-mount-colors="<%= JSON.dump(@mount_colors_presenter.to_h) %>"
+    :available-foil-blocking-colors="<%= JSON.dump(@foil_blocking_colors_presenter.to_h) %>"
+    :order_id="<%= @order.id %>"
+    :routes="{
+      cartPath: '<%= spree.cart_path %>',
+      ensureCartPath: '<%= spree.ensure_cart_path %>',
+      getCartPath: '<%= spree.api_v2_storefront_cart_path %>',
+      addToCartPath: '<%= spree.add_item_api_v2_storefront_cart_path %>',
+      removeLineItemPath: '<%= spree.cart_remove_line_item_api_v2_storefront_cart_path(':id') %>',
+      changeLineItemQuantityPath: '<%= spree.set_quantity_api_v2_storefront_cart_path %>',
+      applyCouponCodePath: '<%= spree.apply_coupon_code_api_v2_storefront_cart_path %>',
+      removeCouponCodePath: '<%= spree.cart_remove_coupon_code_api_v2_storefront_cart_path(':coupon_code')%>',
+      allProductsPath: '<%= spree.frames_path %>',
+      checkoutPath: '<%= spree.checkout_path %>',
+      digitalUploadPath: '<%= digital_upload_path %>',
+      originalArtUploadPath: '<%= original_art_upload_path %>',
+      updateNameAndMessagePath: '/api/gift_wrappes/update_name_and_message',
+      addOriginalArtPackaging: '/api/gift_wrappes/add_original_art_packaging',
+      availableOptionsPath: '/api/hang_photos/available_options',
+    }"
+  >
+  </cart-page>
+</div>

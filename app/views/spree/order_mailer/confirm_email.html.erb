@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hang Order Confirmation</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="max-width: 100%; background-color: #ebebeb;">
+      <div style="max-width: 640px; margin: 0 auto; background-color: white;">
+        <header style="padding: 25px 60px 17px">
+          <img src="https://hangframing-staging.herokuapp.com/logo.png" alt="logo" style="max-width: 70px" />
+        </header>
+        <div style="background-color: #c2cab1; padding: 114px 60px 64px;">
+          <h3 style="font-size: 40px; line-height: 48px; font-weight: 200; margin-bottom: 50px; font-style: normal; font-family: ; ">
+            Your order is with us.<br/>
+            Not long now!
+          </h3>
+          <div style="height: 2px; width: 520px; background-color: #1d2019; margin: 0 0 35px;"></div>
+          <p style="font-weight: 400; line-height: 20px; font-size: 16px;">
+            Order number: <%= @order.number %>
+          </p>
+        </div>
+        <div style="padding: 63px 60px 14px; overflow: hidden;">
+          <h4 style="font-size: 16px; line-height: 30px; color: #1D2019;">
+            Thank you for your order, <%= @order.shipping_address.first_name %>!
+          </h4>
+          <p style="font-size: 16px; line-height: 22px; margin: 0 0 48px; color: #1D2019;">
+            Our team will start work on your frames very soon. <br />
+            <% if @order.line_items.map(&:custom?).include?(true) %>
+            For original art orders we will be in touch seperately to arrange collection of your artwork.
+            <% end %>
+          </p>
+          <h2 style="margin: 0 0 14px; font-size: 16px; line-height: 30px; color: #1D2019;">Order details</h2>
+          <div style=" height: 3px; background-color: #1d2019; margin-bottom: 30px;" ></div>
+          <% @order.line_items.each do |line_item| %>
+            <% if !line_item.product.is_donation.present? && !line_item.product.is_gift_wrapped.present? %>
+              <div style="display: block; overflow: hidden; margin: 0 0 32px;">
+                <div style="width: 100px; display: inline-block; vertical-align: middle; margin: 0 12px 0 0;">
+                  <% if line_item.hang_photo.present? %>
+                    <%= image_tag line_item.hang_photo.photo.url, :style => "width: 100%; height: auto; position: relative;" %>
+                  <% end %>
+                </div>
+                <div style="width: calc( 100% - 170px); display: inline-block; vertical-align: middle;">
+                  <div style="display: block; font-size: 14px; line-height: 20px; color: #1D2019;">
+                    <p><%= line_item.name%></p>
+                  </div>
+                  <% line_item.order.shipments.each do |shipment| %>
+                    <% shipment.shipping_rates.each do |shipment_rate| %>
+                      <% if shipment_rate.selected? %>
+                        <div style="display: block; font-size: 14px; line-height: 20px; color: #828282;">
+                          <p> 
+                            <%= shipment_rate.name %><br />
+                            <% if shipment_rate.name == 'Free Standard Delivery' %>
+                              2-3 day delivery 
+                            <% else %> Custom - Send-in
+                              Download shipping label
+                            <% end %>
+                          </p>
+                        </div>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                  <% if !line_item.product.custom%>
+                    <p>
+                      <% if line_item.foil_blocking? %>
+                        Personalised foil blocking&emsp;&emsp; £15
+                      <% end %>
+                    </p>
+                  <% else %>
+                    <p>
+                      <% if line_item.adjustments.map(&:label).include?("Additional") %>
+                        Personalised foil blocking&emsp;&emsp; £15
+                      <% end %>
+                    </p>
+                  <% end %>
+                </div>
+                <div style="display: inline-block; text-align: right; max-width: 100px; vertical-align: top; font-size: 14px; line-height: 20px; color: #1D2019;">
+                  <p>£<%= line_item.price %></p>
+                </div>
+              </div>
+              <div style="height: 2px; background-color: #1d2019; margin-bottom: 30px;"></div>
+            <% end %>
+          <% end %>
+          <% if @order.adjustments.map(&:promotion?).first.present? %>
+            <div>
+              <div style="display: block; margin: 0 0 8px;">
+                <div style="display: inline-block; width: 49%; font-size: 14px; color: #1D2019;">
+                  <p><%=@order.adjustments.map(&:label).first %></p>
+                </div>
+                <div style="display: inline-block; width: 49%; font-size: 14px; text-align: right; color: #1D2019;">
+                  <p>£<%= @order.promo_total %></p>
+                </div>
+              </div>
+            </div>
+          <% end %>
+          <% if @order.donation_line_items.present? %>
+            <div style="display: block; margin: 0 0 8px;">
+              <div style="display: inline-block; width: 49%; font-size: 14px; line-height: 20px; color: #1D2019;">
+                <p><%= @order.donation_line_items.map(&:quantity).first %> tree to Trees for Life </p>
+              </div>
+              <div style="display: inline-block; width: 49%; font-size: 14px; line-height: 20px; text-align: right; color: #1D2019;">
+                <p>£<%= @order.donation_line_items.map(&:amount).first %>0</p>
+              </div>
+            </div>
+          <% end %>
+          <% if @order.gift_wrapped_line_items.present? %>
+            <div style="display: block; margin: 0 0 8px;">
+              <div style="display: inline-block; width: 49%; font-size: 14px; line-height: 20px; color: #1D2019;">
+                <p> Gift note & Wrapping </p>
+              </div>
+              <div style="display: inline-block; width: 49%; font-size: 14px; line-height: 20px; text-align: right; color: #1D2019;">
+                <p>£<%= @order.gift_wrapped_line_items.map(&:amount).first %>0</p>
+              </div>
+            </div>
+          <% end %>
+          <div style="display: block; margin: 0 0 19px;">
+            <div style="display: inline-block; width: 49%; font-size: 14px; color: #1D2019;">
+              <p>Delivery</p>
+            </div>
+            <div style="display: inline-block; width: 49%; font-size: 14px; text-align: right; color: #1D2019;">
+              <p>£<%= @order.shipment_total %></p>
+            </div>
+          </div>
+
+          <div style="display: block; margin: 0 0 19px;">
+            <div style="display: inline-block; width: 49%; font-size: 14px; color: #1D2019;">
+              <strong>Total</strong>
+            </div>
+            <div style="display: inline-block; width: 49%; font-size: 14px; text-align: right; color: #1D2019;">
+              <strong>£<%= @order.total %></strong>
+            </div>
+          </div>
+          
+          <div style="height: 3px; background-color: #1d2019; margin: 0 0 38px;"></div>
+          <div style="display: block; overflow: hidden; padding: 0 0 20px;">
+            <div style="display: inline-block; width: 50%; overflow: hidden;">
+              <div style="display: block; overflow: hidden; font-size: 14px; color: #1D2019; margin: 0 0 9px; font-weight: bold;">
+                <p>Billing address</p>
+              </div>
+              <div style="display: block; overflow: hidden; font-size: 14px; line-height: 20px; color: #1D2019; margin: 0 0 9px;">
+                <p><%= @order.billing_address.address1 ? @order.billing_address.address1  : "" + ' '+ @order.billing_address.address2 ? @order.billing_address.address2 : "" %><br><%= @order.billing_address.city %><br><%= @order.billing_address.zipcode %></p>
+              </div>
+            </div>
+            <div style="display: inline-block; width: 49%; overflow: hidden;">
+              <div style="display: block; overflow: hidden; font-size: 14px; line-height: 20px; color: #1D2019; margin: 0 0 9px; font-weight: bold;">
+                <p>Shipping address</p>
+              </div>
+              <div style="display: block; overflow: hidden; font-size: 14px; line-height: 20px; color: #1D2019; margin: 0 0 9px;">
+                <p><%= @order.shipping_address.address1 ? @order.shipping_address.address1  : "" + ' '+ @order.shipping_address.address2 ? @order.shipping_address.address2 : "" %><br><%= @order.shipping_address.city %><br><%= @order.shipping_address.zipcode %></p>
+              </div>
+            </div>
+          </div>
+          <div style="height: 3px; background-color: #1d2019; margin: 0 0 57px;"></div>
+          <% if @order.donated? %>
+            <div style="display: block; overflow: hidden; padding: 0 0 67px;">
+              <div style="width: 49%; display: inline-block; vertical-align: middle; overflow: hidden;">
+                <div style="font-size: 16px; line-height: 20px; color: #1D2019; font-weight: bold;">
+                  <p>Thank you for donating to</p><a href="https://treesforlife.org.uk/" style="font-style: italic; text-decoration: underline; color: black;">Trees for Life</a>
+                </div>
+                <% if @order.donation_line_items.count == 1 %>
+                <div style="font-size: 16px; line-height: 20px; color: #1D2019; padding: 0 42px 0 0;">
+                  <p>Your donation will help revitalise the wild forest in the Scottish Highlands, providing space for wildlife to flourish and communities to thrive.</p>
+                </div>
+                <% else %>
+                <div style="font-size: 16px; line-height: 20px; color: #1D2019; padding: 0 42px 0 0;">
+                  <p>Your donation will help revitalise the wild forest in the Scottish Highlands, providing space for wildlife to flourish and communities to thrive.</p>
+                </div>
+                <% end %>
+              </div>
+              <div style="width: 50%; display: inline-block; vertical-align: middle; overflow: hidden;">
+                <img src="https://hangframing-staging.herokuapp.com/Screen Shot 2021-02-01 at 11.27.png" alt="Mountains" />
+              </div>
+            </div>
+          <% end%>
+        </div>
+        <div style="display: block; padding:80px 60px 54px; background: #F5F5F4;">
+          <div style="display: inline-table; width: 73%; overflow: hidden; padding: 0; margin: 0 0 8px; font-size: 14px; line-height: 21px; color: #1D2019;">
+            <p style ="margin-top: 0px;">Need some help?</p>
+          </div>
+          <div style="display: inline-block; overflow: hidden; position: relative;">
+            <a href="https://www.instagram.com/hangframing" style ="text-decoration: none;">
+              <img alt="Social Media Icons" src="https://hangframing-staging.herokuapp.com/instagram.png" style= "width: 28.8px; height: 28.8px;" />
+            </a>
+            <a href="https://www.facebook.com/hangframing" style ="text-decoration: none;">
+              <img alt="Social Media Icons" src="https://hangframing-staging.herokuapp.com/facebook.png" style= "width: 28.8px; height: 28.8px; margin-left:11px;" />
+            </a>
+            <a href="https://pl.pinterest.com/hangframing">
+              <img alt="Social Media Icons" src="https://hangframing-staging.herokuapp.com/pinterest.png" style= "width: 28.8px; height: 28.8px; margin-left:11px;" />
+            </a>
+          </div>
+          <div style="display: block; overflow: hidden; font-size: 12px; line-height: 21px; color: #1D2019;">
+            <p>01777 573 994<br>
+              <a style="text-decoration: none; color: #1D2019;">info@hangframing.com</a>
+            </p>
+            <br>
+              <ul style="display: block;">
+                <li style="display: inline-block; margin: 0 10px 0 0; text-decoration: underline; color: #1D2019;"><a style="color: #1D2019;" href="https://hangframing.com/faq">FAQs</a></li>
+                <li style="display: inline-block; margin: 0 10px 0 0; text-decoration: underline; color: #1D2019;"><a style="color: #1D2019;" href="https://www.hangframing.com/terms-conditions">T&Cs</a></li>
+                <li style="display: inline-block; margin: 0 10px 0 0; text-decoration: underline; color: #1D2019;"><a style="color: #1D2019;" href="https://hangframing.com/privacy-policy">Privacy Policy</a></li>
+              </ul>
+              <br><br>
+              <p>Hang Framing Ltd, Old Hall, Blyth Road, Ranskill, Retford, Nottinghamshire, DN22 8LR, United Kingdom. We're registered in England and our company number is 12318340.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,50 @@
+<% is_visible = params[:menu_open] ? 'block md:hidden' : 'hidden' %>
+
+<div id="filter-by-overlay" class="fixed top-0 bottom-0 right-0 left-0 md:hidden z-50 bg-white px-6 py-6 overflow-scroll <%= is_visible %>">
+  <div class="flex">
+    <%= link_to 'Clear all filters', permitted_params.select { |key, value| key == "sort_by"}, class: 'mt-7 tracking-wide text-sm leading-lg font-bold uppercase focus:outline-none hover:underline text-grey btn spree-btn btn-outline-primary w-100 mb-4', data: { params: permitted_params.select { |key, value| key == "sort_by"} } %>
+    <%= inline_svg_tag 'close.svg', id: 'filter-by-overlay-hide-button', class: 'ml-auto mr-0 w-8 h-8 flex-shrink-0 cursor-pointer p-2 border rounded-full' %>
+  </div>
+  <% cache base_cache_key + [available_option_types_cache_key, filtering_params_cache_key, @taxon&.id] do %>
+    <div>
+      <div id="filters-accordion">
+        <% available_option_types.each do |option_type| %>
+          <% option_type_name = option_type.filter_param %>
+          <% ot_downcase_name = option_type_name.downcase %>
+
+          <v-p class="font-bold" :body-size="1"><%= option_type.presentation %></v-p>
+          <div class="mt-8 mb-20">
+            <%= render 'spree/shared/option_values', params_ot_downcase_name: params[ot_downcase_name], option_type: option_type, permitted_params: permitted_params, ot_downcase_name: ot_downcase_name %>
+          </div>
+        <% end %>
+
+        <% additional_filters_partials.each do |partial| %>
+          <%= render "spree/products/filters/mobile/#{partial}", permitted_params: permitted_params %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="flex flex-col items-center">
+    <%= link_to 'Apply filters', permitted_params, class: 'border-2 rounded-lg py-4 w-full text-center tracking-wide text-sm leading-lg font-bold uppercase focus:outline-none bg-yellow border-yellow hover:bg-yellow2 hover:border-yellow2 text-grey done-btn', data: { params: permitted_params } %>
+    <%= link_to 'Clear all filters', permitted_params.select { |key, value| key == "sort_by"}, class: 'mt-7 tracking-wide text-sm leading-lg font-bold uppercase focus:outline-none hover:underline text-grey btn spree-btn btn-outline-primary w-100 mb-4', data: { params: permitted_params.select { |key, value| key == "sort_by"} } %>
+  </div>
+</div>
+<%# <style>
+@media all and (max-width: 540px) {
+  .filter_class{
+    margin-button: 50px;
+  }
+
+}
+@media all and (min-width: 540px){
+  .filter_class{
+    margin-button: 50px;
+  }
+}
+@media all and (max-width: 380px) {
+  .filter_class{
+    margin-button: 50px;
+  }
+}
+</style> %>

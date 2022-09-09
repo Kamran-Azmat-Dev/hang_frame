@@ -1,0 +1,6 @@
+<div id="<%= dom_id(card,'spree') %>" class="payment-sources-list-item vspree-radio-container mt-4">
+  <%= radio_button_tag "order[existing_card]", card.id, (card == @payment_sources.first), { class: "existing-cc-radio vspree-radio-input" } %>
+  <%= label_tag 'order[existing_card]', for: "order_existing_card_#{card.id}", class: 'vspree-radio-label' do %>
+    <p class="md:text-lg md:leading-lg">****<%= card.last_digits %>,&nbsp<%= card.name %></p>
+  <% end %>
+</div>

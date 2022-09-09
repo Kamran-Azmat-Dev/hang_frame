@@ -1,0 +1,54 @@
+<%= render partial: 'spree/admin/shared/product_tabs', locals: { current: :frame_preview_images } %>
+
+<% content_for :page_actions do %>
+  <%= yield :page_actions %>
+  <%= product_preview_link(@product) %>
+  <%= button_link_to(Spree.t(:new_image), spree.new_admin_product_frame_preview_image_url(@product), { class: "btn-success", icon: 'add.svg', id: 'new_image_link' }) if can? :create, Frame::PreviewImage %>
+<% end %>
+
+<% has_variants = @product.has_variants? %>
+
+<% unless @product.variant_frame_preview_images.any? %>
+  <div class="alert alert-warning">
+    <%= Spree.t(:no_resource_found, resource: plural_resource_name(Frame::PreviewImage)) %>.
+  </div>
+<% else %>
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr data-hook="images_header">
+        <th>
+          <%= Spree.t(:thumbnail) %>
+        </th>
+        <% if has_variants %>
+          <th>
+            <%= Spree::Variant.model_name.human %>
+          </th>
+        <% end %>
+        <th>
+          <%= Spree.t(:name) %>
+        </th>
+        <th class="actions"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% (@product.variant_frame_preview_images).each do |image| %>
+        <tr id="<%= spree_dom_id image %>" data-hook="images_row">
+          <td class="image">
+            <%= link_to image_tag(main_app.url_for(image.attachment), size: '100x50'), main_app.rails_blob_url(image.attachment) %>
+          </td>
+          <% if has_variants %>
+            <td><%= image.variant.sku_and_options_text %></td>
+          <% end %>
+          <td><%= image.name %></td>
+          <td class="actions actions-2 text-right">
+            <%= link_to_with_icon('edit.svg', Spree.t(:edit), spree.edit_admin_product_frame_preview_image_url(@product, image), class: 'btn btn-primary btn-sm', no_text: true, data: { action: 'edit' }) if can? :edit, image %>
+            <%= link_to_delete(image, { url: spree.admin_product_frame_preview_image_url(@product, image), no_text: true }) if can? :destroy, image %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<% end %>

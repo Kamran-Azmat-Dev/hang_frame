@@ -1,0 +1,35 @@
+<% content_for :page_title do %>
+  <%= plural_resource_name(CustomFrame::MountOption) %>
+<% end %>
+
+<% content_for :page_actions do %>
+  <%= button_link_to Spree.t(:new_mount_option), new_object_url, { class: "btn-success", icon: 'add.svg', id: 'admin_new_country' } %>
+<% end if can? :create, CustomFrame::MountOption %>
+
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+    <tr>
+      <th><%= Spree.t(:label) %></th>
+      <th><%= Spree.t(:name) %></th>
+      <th><%= Spree.t(:price) %></th>
+      <th data-hook="admin_promotions_index_header_actions" class="actions"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @custom_frame_mount_options.each do |mount_option| %>
+      <tr id="<%= spree_dom_id mount_option %>">
+        <td><%= mount_option.label %></td>
+        <td><%= mount_option.name %></td>
+        <td><%= mount_option.price %></td>
+        <td class="actions" data-hook="admin_promotions_index_row_actions">
+          <span class="d-flex justify-content-end">
+            <%= link_to_edit(mount_option, no_text: true) if can? :edit, mount_option %>
+            <%= link_to_delete(mount_option, no_text: true) if can? :delete, mount_option %>
+          </span>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>

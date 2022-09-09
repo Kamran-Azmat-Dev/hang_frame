@@ -1,0 +1,15 @@
+<%= render partial: 'spree/shared/error_messages', locals: { target: @spree_user } %>
+
+<div class="w-full max-w-screen-xl px-6 mx-auto mt-16 md:mt-29 mb-25">
+  <div class="w-full md:max-w-114 mx-auto flex flex-col items-center">
+    <h3 class="font-heading text-2xl leading-2xl md:text-5xl md:leading-5xl">Reset your password</h3>
+    <p class="text-base-plus leading-base-plus md:text-xl md:leading-xl mt-8 md:mt-9 text-center">
+      We will send you an email to reset your password
+    </p>
+
+    <%= form_for Spree.user_class.new, as: :spree_user, url: spree.reset_password_path, html: { class: 'mt-8 md:mt-9 w-full md:max-w-81' } do |f| %>
+      <%= f.email_field :email, class: "w-full px-4 py-3 md:text-lg md:leading-lg border border-grey50 text-grey rounded-sm focus:outline-none focus:border-grey disabled:text-grey50", placeholder: Spree.t(:email) %>
+      <%= f.submit 'Reset password', class: 'w-full tracking-wide text-sm leading-lg font-bold uppercase focus:outline-none bg-yellow border-yellow hover:bg-yellow2 hover:border-yellow2 text-grey border-2 rounded-lg cursor-pointer py-4 mt-6' %>
+    <% end %>
+  </div>
+</div>

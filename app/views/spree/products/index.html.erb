@@ -1,0 +1,93 @@
+<% permitted_params = params.permit(*filtering_params) %>
+<% products_empty = @products.empty? %>
+<% default_mount_color = CustomFrame::MountColor.first %>
+<% @body_id = 'body-products' %>
+
+<div id="frames" class="w-full max-w-screen-xl px-6 mx-auto mt-19 md:mt-29 mb-25">
+  <% if @taxon.present? %>
+    <% if @taxon.name == 'Custom' %>
+      <v-h3 class="text-center md:text-left">Custom frames</v-h3>
+    <% else %>
+      <v-h3 class="text-center md:text-left">Standard/gift frames</v-h3>
+    <% end %>
+  <% end %>
+  <div class="grid md:grid-cols-4 gap-6 mt-12 md:mt-16">
+    <div class="md:hidden mb-8">
+      <%= render 'spree/products/filter_and_sort_mobile_buttons' %>
+    </div>
+
+    <div class="hidden md:block">
+      <div class="mb-10">
+        <%= link_to 'Clear all filters',
+                permitted_params.select { |key, value| key == 'sort_by' },
+                class: 'font-bold uppercase text-sm hover:underline',
+                style:"letter-spacing: 2px;",
+                data: { params: permitted_params.select { |key, value| key == 'sort_by' } } %>
+      </div>
+      <% cache base_cache_key + [available_option_types_cache_key, filtering_params_cache_key, @taxon&.id] do %>
+        <% @available_option_types.each do |option_type| %>
+          <% ot_downcase_name = option_type.filter_param %>
+
+          <v-p class="font-bold" :body-size="1"><%= option_type.presentation %></v-p>
+          <div class="mt-8 mb-20">
+            <%= render 'spree/shared/option_values',
+                  params_ot_downcase_name: params[ot_downcase_name],
+                  option_type: option_type,
+                  permitted_params: permitted_params,
+                  ot_downcase_name: ot_downcase_name %>
+          </div>
+        <% end %>
+        <div style="margin-top: -50px;">
+            <%= link_to 'Clear all filters',
+                  permitted_params.select { |key, value| key == 'sort_by' },
+                  class: 'font-bold uppercase text-sm hover:underline',
+                  style:"letter-spacing: 2px; ",
+                  data: { params: permitted_params.select { |key, value| key == 'sort_by' } } %>
+        </div>
+      <% end %>
+    </div>
+
+    <% if @products.empty? %>
+      <v-p class="text-center md:col-span-3" :body-size="1">No frames matching selected filters</v-p>
+    <% else %>
+      <load-upload-preview
+        class="md:col-span-3"
+        v-slot="{ upload }"
+        get-photo-preview-path="<%= main_app.api_show_hang_photo_path %>"
+      >
+        <div class="grid md:grid-cols-3 gap-6 w-full">
+          <% @products.each do |product| %>
+            <% details_presenter = Frame::FrameDetailsPresenter.new(product) %>
+            <% details = details_presenter.to_h %>
+            <% mount_color_presenter = default_mount_color ? CustomFrame::MountColorPresenter.new(default_mount_color) : nil %>
+
+            <product-card
+              class="w-full"
+              :variant="<%= JSON.dump(details['variant']) %>"
+              :product="<%= JSON.dump(details) %>"
+              :mount-color="<%= JSON.dump(mount_color_presenter.to_h) %>"
+              :upload="upload"
+              :is-custom="<%= product.custom? %>"
+              :has-hover-effect="true"
+              name="<%= product.name %>"
+              description="<%= product.short_description %>"
+              target-url="<%= spree.product_path(product) %>"
+            >
+            </product-card>
+          <% end %>
+        </div>
+      </load-upload-preview>
+    <% end %>
+
+  <% if @products.respond_to?(:total_pages) %>
+    <div class="md:col-start-2 md:col-span-3 hidden md:flex">
+      <%= paginate @products, window: 2, theme: 'twitter-bootstrap-4' %>
+    </div>
+    <div class="flex md:hidden">
+      <%= paginate @products, window: 1, theme: 'twitter-bootstrap-4' %>
+    </div>
+  <% end %>
+  </div>
+
+  <%= render 'spree/products/filters_mobile', permitted_params: permitted_params %>
+</div>

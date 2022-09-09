@@ -1,0 +1,313 @@
+<template>
+  <defs>
+    <pattern
+      :id="`mount-${namespace}`"
+      x="0"
+      y="0"
+      patternUnits="userSpaceOnUse"
+      :width="configurationWithDefaults.mountPatternWidth"
+      :height="configurationWithDefaults.mountPatternHeight"
+    >
+      <image
+        :xlink:href="configurationWithDefaults.mountPattern"
+        :width="configurationWithDefaults.mountPatternWidth"
+        :height="configurationWithDefaults.mountPatternHeight"
+      />
+    </pattern>
+
+    <pattern
+      :id="`accentMount-${namespace}`"
+      x="0"
+      y="0"
+      patternUnits="userSpaceOnUse"
+      :width="configurationWithDefaults.accentMount.mountPatternWidth"
+      :height="configurationWithDefaults.accentMount.mountPatternHeight"
+    >
+      <image
+        :xlink:href="configurationWithDefaults.accentMount.mountPattern"
+        :width="configurationWithDefaults.accentMount.mountPatternWidth"
+        :height="configurationWithDefaults.accentMount.mountPatternHeight"
+      />
+    </pattern>
+
+    <pattern
+      :id="`frameTop-${namespace}`"
+      x="0"
+      y="0"
+      patternUnits="userSpaceOnUse"
+      :width="configurationWithDefaults.borderPatternRepeats"
+      :height="configurationWithDefaults.borderWidth"
+    >
+      <image
+        :xlink:href="configurationWithDefaults.borderPattern"
+        :width="configurationWithDefaults.borderPatternRepeats"
+        :height="configurationWithDefaults.borderWidth"
+      />
+    </pattern>
+    <pattern
+      :id="`frameBottom-${namespace}`"
+      x="0"
+      y="0"
+      patternUnits="userSpaceOnUse"
+      :width="configurationWithDefaults.borderPatternRepeats"
+      :height="configurationWithDefaults.borderWidth"
+      patternTransform="rotate(180)"
+    >
+      <image
+        :xlink:href="configurationWithDefaults.borderPattern"
+        :width="configurationWithDefaults.borderPatternRepeats"
+        :height="configurationWithDefaults.borderWidth"
+      />
+    </pattern>
+
+    <pattern
+      :id="`frameLeft-${namespace}`"
+      x="0"
+      y="0"
+      patternUnits="userSpaceOnUse"
+      :width="configurationWithDefaults.borderPatternRepeats"
+      :height="configurationWithDefaults.borderWidth"
+      patternTransform="rotate(-90)"
+    >
+      <image
+        :xlink:href="configurationWithDefaults.borderPattern"
+        :width="configurationWithDefaults.borderPatternRepeats"
+        :height="configurationWithDefaults.borderWidth"
+      />
+    </pattern>
+
+    <pattern
+      :id="`frameRight-${namespace}`"
+      x="0"
+      y="0"
+      patternUnits="userSpaceOnUse"
+      :width="configurationWithDefaults.borderPatternRepeats"
+      :height="configurationWithDefaults.borderWidth"
+      patternTransform="rotate(90)"
+    >
+      <image
+        :xlink:href="configurationWithDefaults.borderPattern"
+        x="0"
+        y="0"
+        :width="configurationWithDefaults.borderPatternRepeats"
+        :height="configurationWithDefaults.borderWidth"
+      />
+    </pattern>
+
+    <pattern
+      :id="`mountBorderTop-${namespace}`"
+      x="0"
+      y="0"
+      patternUnits="userSpaceOnUse"
+      :width="configurationWithDefaults.mountBorderTopLeftWidth"
+      :height="configurationWithDefaults.mountBorderTopLeftHeight"
+    >
+      <image
+        :xlink:href="configurationWithDefaults.mountBorderTopLeft"
+        x="0"
+        y="0"
+        :width="configurationWithDefaults.mountBorderTopLeftWidth"
+        :height="configurationWithDefaults.mountBorderTopLeftHeight"
+      />
+    </pattern>
+
+    <pattern
+      :id="`mountBorderLeft-${namespace}`"
+      x="0"
+      y="0"
+      patternUnits="userSpaceOnUse"
+      :width="configurationWithDefaults.mountBorderTopLeftWidth"
+      :height="configurationWithDefaults.mountBorderTopLeftHeight"
+      patternTransform="rotate(-90)"
+    >
+      <image
+        :xlink:href="configurationWithDefaults.mountBorderTopLeft"
+        x="0"
+        y="0"
+        :width="configurationWithDefaults.mountBorderTopLeftWidth"
+        :height="configurationWithDefaults.mountBorderTopLeftHeight"
+      />
+    </pattern>
+
+    <pattern
+      :id="`mountBorderBottom-${namespace}`"
+      x="0"
+      y="0"
+      patternUnits="userSpaceOnUse"
+      :width="configurationWithDefaults.mountBorderBottomRightWidth"
+      :height="configurationWithDefaults.mountBorderBottomRightHeight"
+    >
+      <image
+        :xlink:href="configurationWithDefaults.mountBorderBottomRight"
+        x="0"
+        y="0"
+        :width="configurationWithDefaults.mountBorderBottomRightWidth"
+        :height="configurationWithDefaults.mountBorderBottomRightHeight"
+      />
+    </pattern>
+
+    <pattern
+      :id="`mountBorderRight-${namespace}`"
+      x="0"
+      y="0"
+      patternUnits="userSpaceOnUse"
+      :width="configurationWithDefaults.mountBorderBottomRightWidth"
+      :height="configurationWithDefaults.mountBorderBottomRightHeight"
+      patternTransform="rotate(-90)"
+    >
+      <image
+        :xlink:href="configurationWithDefaults.mountBorderBottomRight"
+        x="0"
+        y="0"
+        :width="configurationWithDefaults.mountBorderBottomRightWidth"
+        :height="configurationWithDefaults.mountBorderBottomRightHeight"
+      />
+    </pattern>
+
+    <pattern
+      :id="`accentMountBorderTop-${namespace}`"
+      x="0"
+      y="0"
+      patternUnits="userSpaceOnUse"
+      :width="configurationWithDefaults.accentMount.mountBorderTopLeftWidth"
+      :height="configurationWithDefaults.accentMount.mountBorderTopLeftHeight"
+    >
+      <image
+        :xlink:href="configurationWithDefaults.accentMount.mountBorderTopLeft"
+        x="0"
+        y="0"
+        :width="configurationWithDefaults.accentMount.mountBorderTopLeftWidth"
+        :height="configurationWithDefaults.accentMount.mountBorderTopLeftHeight"
+      />
+    </pattern>
+
+    <pattern
+      :id="`accentMountBorderLeft-${namespace}`"
+      x="0"
+      y="0"
+      patternUnits="userSpaceOnUse"
+      :width="configurationWithDefaults.accentMount.mountBorderTopLeftWidth"
+      :height="configurationWithDefaults.accentMount.mountBorderTopLeftHeight"
+      patternTransform="rotate(-90)"
+    >
+      <image
+        :xlink:href="configurationWithDefaults.accentMount.mountBorderTopLeft"
+        x="0"
+        y="0"
+        :width="configurationWithDefaults.accentMount.mountBorderTopLeftWidth"
+        :height="configurationWithDefaults.accentMount.mountBorderTopLeftHeight"
+      />
+    </pattern>
+
+    <pattern
+      :id="`accentMountBorderBottom-${namespace}`"
+      x="0"
+      y="0"
+      patternUnits="userSpaceOnUse"
+      :width="configurationWithDefaults.accentMount.mountBorderBottomRightWidth"
+      :height="configurationWithDefaults.accentMount.mountBorderBottomRightHeight"
+    >
+      <image
+        :xlink:href="configurationWithDefaults.accentMount.mountBorderBottomRight"
+        x="0"
+        y="0"
+        :width="configurationWithDefaults.accentMount.mountBorderBottomRightWidth"
+        :height="configurationWithDefaults.accentMount.mountBorderBottomRightHeight"
+      />
+    </pattern>
+
+    <pattern
+      :id="`accentMountBorderRight-${namespace}`"
+      x="0"
+      y="0"
+      patternUnits="userSpaceOnUse"
+      :width="configurationWithDefaults.accentMount.mountBorderBottomRightWidth"
+      :height="configurationWithDefaults.accentMount.mountBorderBottomRightHeight"
+      patternTransform="rotate(-90)"
+    >
+      <image
+        :xlink:href="configurationWithDefaults.accentMount.mountBorderBottomRight"
+        x="0"
+        y="0"
+        :width="configurationWithDefaults.accentMount.mountBorderBottomRightWidth"
+        :height="configurationWithDefaults.accentMount.mountBorderBottomRightHeight"
+      />
+    </pattern>
+
+    <filter
+      :id="`photoShadow-${namespace}`"
+      x="-10%"
+      y="-10%"
+      width="120%"
+      height="120%"
+    >
+      <feDropShadow
+        dx="0.2"
+        dy="0.2"
+        stdDeviation="0.2"
+        flood-color="#333"
+      />
+    </filter>
+
+    <filter
+      :id="`topFrameShadow-${namespace}`"
+      x="-10%"
+      y="-10%"
+      width="120%"
+      height="120%"
+    >
+      <feDropShadow
+        dx="0.1"
+        dy="0.1"
+        stdDeviation="0.1"
+        flood-color="#333"
+      />
+    </filter>
+
+    <filter
+      :id="`leftFrameShadow-${namespace}`"
+      x="-10%"
+      y="-10%"
+      width="120%"
+      height="120%"
+    >
+      <feDropShadow
+        dx="0.1"
+        dy="0.1"
+        stdDeviation="0.1"
+        flood-color="#333"
+      />
+    </filter>
+
+    <filter
+      :id="`frameShadow-${namespace}`"
+      x="-10%"
+      y="-10%"
+      width="140%"
+      height="140%"
+    >
+      <feDropShadow
+        dx="0.5"
+        dy="1"
+        stdDeviation="1"
+        flood-color="#6E6560"
+      />
+    </filter>
+  </defs>
+</template>
+
+<script>
+export default {
+  name: 'CustomFrameDefinitions',
+  props: {
+    configurationWithDefaults: {
+      type: Object,
+      required: true,
+    },
+    namespace: {
+      type: String,
+      required: true,
+    },
+  }
+}
+</script>

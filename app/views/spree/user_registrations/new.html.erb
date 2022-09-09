@@ -1,0 +1,23 @@
+<% @body_id = 'signup' %>
+<%= render partial: 'spree/shared/error_messages', locals: { target: @user } %>
+
+<div class="w-full max-w-screen-xl px-6 mx-auto mt-16 md:mt-29 mb-25">
+  <div class="w-full md:max-w-96 mx-auto flex flex-col items-center">
+    <h3 class="font-heading text-2xl leading-2xl md:text-5xl md:leading-5xl">Create an account</h3>
+    <p class="text-base-plus leading-base-plus md:text-xl md:leading-xl mt-8 md:mt-9">
+      Already have an account?
+      <%= link_to 'Sign in', spree.login_path, class: 'underline' %>
+    </p>
+
+    <%= form_for resource, as: :spree_user, url: spree.registration_path, html: { class: 'mt-8 md:mt-9 w-full md:max-w-81' } do |f| %>
+      <%= render partial: 'spree/shared/user_form', locals: { f: f, remember_me_field: true } %>
+      <div><%= f.submit Spree.t(:sign_up), class: 'w-full tracking-wide text-sm leading-lg font-bold uppercase focus:outline-none bg-yellow border-yellow hover:bg-yellow2 hover:border-yellow2 text-grey border-2 rounded-lg cursor-pointer py-4 mt-6' %></div>
+    <% end %>
+
+    <% if spree.respond_to?(:recover_password_path) %>
+      <div class="mt-4">
+        <%= link_to Spree.t(:forgot_password), spree.recover_password_path, class: 'md:text-lg md:leading-lg hover:underline' %>
+      </div>
+    <% end %>
+  </div>
+</div>

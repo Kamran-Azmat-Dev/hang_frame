@@ -1,0 +1,35 @@
+<% content_for :page_title do %>
+  <%= plural_resource_name(CustomFrame::Additional) %>
+<% end %>
+
+<% content_for :page_actions do %>
+  <%= button_link_to Spree.t(:new_additional), new_object_url, { class: "btn-success", icon: 'add.svg', id: 'admin_new_country' } %>
+<% end if can? :create, CustomFrame::Additional %>
+
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+    <tr>
+      <th><%= Spree.t(:label) %></th>
+      <th><%= Spree.t(:name) %></th>
+      <th><%= Spree.t(:price) %></th>
+      <th data-hook="admin_promotions_index_header_actions" class="actions"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @custom_frame_additionals.each do |frame_additional| %>
+      <tr id="<%= spree_dom_id frame_additional %>">
+        <td><%= frame_additional.label %></td>
+        <td><%= frame_additional.name %></td>
+        <td><%= frame_additional.price %></td>
+        <td class="actions" data-hook="admin_promotions_index_row_actions">
+          <span class="d-flex justify-content-end">
+            <%= link_to_edit(frame_additional, no_text: true) if can? :edit, frame_additional %>
+            <%= link_to_delete(frame_additional, no_text: true) if can? :delete, frame_additional %>
+          </span>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>

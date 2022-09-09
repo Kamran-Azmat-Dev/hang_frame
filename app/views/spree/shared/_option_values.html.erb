@@ -1,0 +1,32 @@
+<% cache base_cache_key + [ot_downcase_name, params_ot_downcase_name, filtering_params_cache_key, @taxon&.id] do %>
+  <% is_color_option = color_option_type_name.present? && color_option_type_name.downcase == ot_downcase_name %>
+  <% selected_option_values = params_ot_downcase_name&.split(',')&.map(&:to_i) || [] %>
+
+  <div class="<%= is_color_option ? 'flex flex-wrap' : 'flex flex-col' %>">
+    <% option_type.option_values.each do |option_value| %>
+      <% id = option_value.id %>
+      <% name = option_value.name %>
+
+      <% option_value_param = (selected_option_values.include?(id) ? selected_option_values - [id] : selected_option_values + [id]).join(',') %>
+      <%= link_to permitted_params.merge(ot_downcase_name => option_value_param, menu_open: 1),
+                    { class: 'mb-3 mr-3',
+                      data: { params: permitted_params.merge(ot_downcase_name => option_value_param, menu_open: 1),
+                              id: id,
+                              filter_name: ot_downcase_name,
+                              multiselect: true } } do %>
+        <% if is_color_option %>
+          <color-marker
+            color="<%= option_value.presentation %>"
+            :selected="<%= selected_option_values.include?(id) %>"
+            :size="2"
+          >
+          </color-marker>
+        <% else %>
+          <div class="inline-block capitalize mb-2 px-4 py-2 hover:underline <%= 'border border-grey rounded-lg' if selected_option_values.include?(id) %>">
+            <%= name %>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

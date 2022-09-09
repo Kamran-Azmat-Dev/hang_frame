@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col-12 col-md-6">
+    <div data-hook="file" class="form-group">
+      <%= f.label :attachment, Spree.t(:filename) %>
+      <%= f.file_field :attachment %>
+    </div>
+    <div data-hook="variant" class="form-group">
+      <%= f.label :variant_id, Spree::Variant.model_name.human %>
+      <%= f.select :variant_id, @variants, {}, {class: 'select2'} %>
+    </div>
+  </div>
+  <div class="col-12 col-md-6">
+    <div class="form-group">
+      <%= f.label :name, Spree.t(:name) %>
+      <%= f.select :name, options_for_select([Frame::PreviewImage::BORDER_PATTERN, Frame::PreviewImage::CHEVRON], @object.name), {}, { class: 'select2' } %>
+    </div>
+    <div class="form-group">
+      <%= f.label :border_width, 'Border width (cm)' %>
+      <%= f.text_field :border_width, class: 'form-control' %>
+    </div>
+    <div class="form-group">
+      <%= f.label :border_pattern_repeats, 'Border pattern repeats every (cm)' %>
+      <%= f.text_field :border_pattern_repeats, class: 'form-control' %>
+    </div>
+  </div>
+</div>

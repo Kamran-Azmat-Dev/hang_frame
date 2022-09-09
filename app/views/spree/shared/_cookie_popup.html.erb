@@ -1,0 +1,27 @@
+<div class="fixed z-50 bottom-0 left-0 right-0 pt-4 pb-4 bg-white hidden" id="cookies-banner">
+  <div class="mx-auto w-full max-w-screen-xl px-6 flex items-center">
+    <div class="flex-1">
+      Hangframing.com use cookies to manage performance, advertising and customer experience. By continuing, you agree to our use of cookies.
+      <br />
+      Please review our <a href="https://hangframing.com/privacy-policy" class="underline">policy</a> to learn about managing cookies.
+    </div>
+    <button id="cookies-accept" class="flex-shrink-0 bg-yellow border-yellow hover:bg-yellow2 hover:border-yellow2 text-grey py-4 px-8 rounded-lg">
+      Got it
+    </button>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("turbolinks:load", function() {
+    if (!document.cookie.match(/cookies-accepted=true/)) {
+      document.getElementById('cookies-banner').classList.remove('hidden');
+    }
+
+    document.getElementById('cookies-accept').addEventListener('click', function () {
+      var d = new Date;
+      var value = d.setTime(d.getTime() + 24*60*60*1000*365);
+      document.cookie = "cookies-accepted=true;path=/;domain=hangframing.com;expires=" + d.toGMTString();
+      document.getElementById('cookies-banner').classList.add('hidden');
+    });
+  });
+</script>

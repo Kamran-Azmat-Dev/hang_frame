@@ -1,0 +1,66 @@
+<div class="w-full max-w-screen-xl px-6 mx-auto mt-16 md:mt-29 mb-25">
+  <div class="grid md:grid-cols-12 gap-6">
+    <div class="md:col-span-8 md:col-start-3 mb-5 md:mb-11">
+      <h4 class="font-heading text-2xl leading-2xl md:text-2xl md:leading-2xl">Your order's complete!</h4>
+    </div>
+
+    <div class="md:col-span-3 md:col-start-3">
+      <h5 class="text-base-plus leading-base-plus md:text-xl md:leading-xl mb-1">
+        Contact
+      </h5>
+      <p class="md:text-lg md:leading-lg text-grey50">
+        <%= @order.email %>
+      </p>
+    </div>
+
+    <div class="md:col-span-3 md:col-start-7">
+      <h5 class="text-base-plus leading-base-plus md:text-xl md:leading-xl mb-1">
+        Payment method
+      </h5>
+      <p class="md:text-lg md:leading-lg text-grey50">
+        <%= render collection: @order.payments.valid, partial: 'spree/shared/payment' %>
+      </p>
+    </div>
+
+    <div class="md:col-span-3 md:col-start-3">
+      <h5 class="text-base-plus leading-base-plus md:text-xl md:leading-xl mb-1">
+        Delivery address
+      </h5>
+      <p class="md:text-lg md:leading-lg text-grey50">
+        <%= render 'spree/shared/address', address: @order.ship_address %>
+      </p>
+    </div>
+
+    <div class="md:col-span-3 md:col-start-7">
+      <h5 class="text-base-plus leading-base-plus md:text-xl md:leading-xl mb-1">
+        Billing address
+      </h5>
+      <p class="md:text-lg md:leading-lg text-grey50">
+        <%= render 'spree/shared/address', address: @order.bill_address %>
+      </p>
+    </div>
+
+    <hr class="md:col-span-8 md:col-start-3 mt-22 border-t border-grey opacity-20 mt-12 mb-11">
+
+    <div class="md:col-span-4 md:col-start-3">
+      <p class="text-base-plus leading-base-plus md:text-xl md:leading-xl">
+        No question is too small.
+      </p>
+      <p class="text-base-plus leading-base-plus md:text-xl md:leading-xl">
+        And all feedback is good feedback. <br>We want to keep bringing you the best products, so we want to hear what you think.
+      </p>
+    </div>
+
+    <div class="md:col-span-3 md:col-start-3">
+      <a href="https://www.hangframing.com/contact" class="block text-center w-full tracking-wide text-sm leading-lg font-bold uppercase focus:outline-none bg-yellow border-yellow hover:bg-yellow2 hover:border-yellow2 text-grey border-2 rounded-lg cursor-pointer py-4 mt-6">Contact us</a>
+      <a href="<%= spree.frames_path %>" class="block text-center bg-grey border-grey hover:bg-transparent text-white hover:text-grey border-2 rounded-lg uppercase py-4 mt-6">Continue shopping</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function (){
+    $cookies.remove('uploadUUID')
+    localStorage.clear();
+  })
+</script>

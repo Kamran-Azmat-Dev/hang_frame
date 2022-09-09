@@ -1,0 +1,28 @@
+<%= render 'spree/shared/error_messages', target: @address %>
+
+<div class="w-full max-w-screen-xl px-6 mx-auto">
+  <div class="grid md:grid-cols-4 gap-6">
+    <%= render partial: 'spree/shared/account_sidebar', locals: { active: 'addresses', classes: 'hidden md:block' } %>
+
+    <div class="md:col-span-3 pt-16 md:pt-29 pb-25">
+      <div class="grid md:grid-cols-9 gap-6">
+        <div class="md:col-span-1">
+        </div>
+
+        <div class="md:col-span-5">
+          <h3 class="font-heading text-2xl leading-2xl md:text-5xl md:leading-5xl"><%= Spree.t(:new_address, scope: :address_book) %></h3>
+
+          <%= form_for @address, html: { id: 'checkout_form_address', class: 'mt-4' } do |f| %>
+            <%= render 'spree/addresses/form',
+              address_name: 'address',
+              address_form: f,
+              address_type: 'shipping',
+              address: @address %>
+
+            <%= f.submit t(:save, scope: :address_book), class: 'tracking-wide text-sm leading-lg font-bold uppercase focus:outline-none bg-yellow border-yellow hover:bg-yellow2 hover:border-yellow2 text-grey border-2 rounded-lg cursor-pointer py-4 px-30 mt-6' %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

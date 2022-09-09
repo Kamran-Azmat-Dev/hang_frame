@@ -1,0 +1,25 @@
+<div class="w-full md:max-w-96 mx-auto flex flex-col items-center">
+  <h3 class="font-heading text-2xl leading-2xl md:text-5xl md:leading-5xl">Sign in</h3>
+  <% if defined?(spree_signup_path) %>
+    <p class="text-base-plus leading-base-plus md:text-xl md:leading-xl mt-8 md:mt-9">
+      Don't have an account?
+      <%= link_to 'Create', spree_signup_path, class: 'underline' %>
+      an account
+    </p>
+  <% end %>
+
+  <%= form_for Spree.user_class.new, as: :spree_user, url: spree_login_path, html: { class: 'mt-8 md:mt-9 w-full md:max-w-81' } do |f| %>
+    <div>
+      <%= f.email_field :email, class: 'w-full px-4 py-3 mb-2 md:text-lg md:leading-lg border border-grey50 text-grey rounded-sm focus:outline-none focus:border-grey disabled:text-grey50', placeholder: Spree.t(:email), value: params.dig(:spree_user, :email) %>
+      <%= f.password_field :password, class: 'w-full px-4 py-3 md:text-lg md:leading-lg border border-grey50 text-grey rounded-sm focus:outline-none focus:border-grey disabled:text-grey50', placeholder: Spree.t(:password) %>
+    </div>
+
+    <%= f.submit Spree.t(:login), class: 'w-full tracking-wide text-sm leading-lg font-bold uppercase focus:outline-none bg-yellow border-yellow hover:bg-yellow2 hover:border-yellow2 text-grey border-2 rounded-lg cursor-pointer py-4 mt-6' %>
+  <% end %>
+
+  <% if spree.respond_to?(:recover_password_path) %>
+    <div class="mt-4">
+      <%= link_to Spree.t(:forgot_password), spree.recover_password_path, class: 'md:text-lg md:leading-lg hover:underline' %>
+    </div>
+  <% end %>
+</div>

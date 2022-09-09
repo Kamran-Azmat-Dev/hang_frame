@@ -1,0 +1,40 @@
+<% content_for :page_actions do %>
+  <%= yield :page_actions %>
+  <%= link_to(@print_size.label, admin_custom_frame_print_sizes_url, class: 'mr-4') %>
+  <%= button_link_to(Spree.t(:new_price), spree.new_admin_custom_frame_print_size_custom_frame_moulding_type_price_url(@print_size), { class: "btn-success", icon: 'add.svg', id: 'new_image_link' }) if can? :create, CustomFrame::MountPreviewImage %>
+<% end %>
+
+<% unless @print_size.moulding_type_prices.any? %>
+  <div class="alert alert-warning">
+    <%= Spree.t(:no_resource_found, resource: plural_resource_name(CustomFrame::MouldingTypePrice)) %>.
+  </div>
+<% else %>
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr data-hook="images_header">
+        <th>
+          <%= Spree.t(:moulding_type) %>
+        </th>
+        <th>
+          <%= Spree.t(:price) %>
+        </th>
+        <th class="actions"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @print_size.moulding_type_prices.each do |moulding_type_price| %>
+        <tr id="<%= spree_dom_id moulding_type_price %>" data-hook="images_row">
+          <td><%= moulding_type_price.moulding_type.name %></td>
+          <td><%= moulding_type_price.price %></td>
+          <td class="actions actions-2 text-right">
+            <%= link_to_with_icon('edit.svg', Spree.t(:edit), spree.edit_admin_custom_frame_print_size_custom_frame_moulding_type_price_url(@print_size, moulding_type_price), class: 'btn btn-primary btn-sm', no_text: true, data: { action: 'edit' }) if can? :edit, moulding_type_price %>
+            <%= link_to_delete(moulding_type_price, { url: spree.admin_custom_frame_print_size_custom_frame_moulding_type_price_url(@print_size, moulding_type_price), no_text: true }) if can? :destroy, moulding_type_price %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<% end %>

@@ -1,0 +1,47 @@
+<div data-hook="admin_country_form_fields">
+  <%= f.field_container :name, class: ['form-group'], 'data-hook' => 'name' do %>
+    <%= f.label :name, Spree.t(:name) %>
+    <%= f.text_field :name, class: 'form-control' %>
+    <%= f.error_message_on :name %>
+  <% end %>
+
+  <%= f.field_container :label, class: ['form-group'], 'data-hook' => 'label' do %>
+    <%= f.label :label, Spree.t(:label) %>
+    <%= f.text_field :label, class: 'form-control' %>
+    <%= f.error_message_on :label %>
+  <% end %>
+
+  <div class="field checkbox mb-2">
+    <label>
+      <%= f.check_box :visible %>
+      <%= Spree.t(:visible) %>
+    </label>
+  </div>
+
+  <%= f.field_container :shortest_side, class: ['form-group'], 'data-hook' => 'shortest_side' do %>
+    <%= f.label :shortest_side, Spree.t(:shortest_side) %>
+    <%= f.text_field :shortest_side, class: 'form-control' %>
+    <%= f.error_message_on :shortest_side %>
+  <% end %>
+
+  <%= f.field_container :longest_sid, class: ['form-group'], 'data-hook' => 'longest_sid' do %>
+    <%= f.label :longest_side, Spree.t(:longest_side) %>
+    <%= f.text_field :longest_side, class: 'form-control' %>
+    <%= f.error_message_on :longest_side %>
+  <% end %>
+
+  <%= f.field_container :mount_type_ids, class: ['form-group'], 'data-hook' => 'mount_type_ids' do %>
+      <%= f.label :mount_types, Spree.t(:mount_type) %>
+      <%= f.select :mount_type_ids, options_from_collection_for_select(CustomFrame::MountType.all, :id, :formatted_label, f.object.mount_types.pluck(:id)), { include_hidden: true }, multiple: true, class: 'mount_types_picker d-block w-100' %>
+  <% end %>
+
+  <%= f.field_container :mount_option_ids, class: ['form-group'], 'data-hook' => 'mount_option_ids' do %>
+    <%= f.label :mount_options, Spree.t(:mount_options) %>
+    <%= f.select :mount_option_ids, options_from_collection_for_select(CustomFrame::MountOption.all, :id, :formatted_label, f.object.mount_options.pluck(:id)), { include_hidden: true }, multiple: true, class: 'mount_options_picker d-block w-100' %>
+  <% end %>
+
+  <%= f.field_container :additional_ids, class: ['form-group'], 'data-hook' => 'additional_ids' do %>
+    <%= f.label :additionals, Spree.t(:additionals) %>
+    <%= f.select :additional_ids, options_from_collection_for_select(CustomFrame::Additional.all, :id, :label, f.object.additionals.pluck(:id)), { include_hidden: true }, multiple: true, class: 'additionals_picker d-block w-100' %>
+  <% end %>
+</div>

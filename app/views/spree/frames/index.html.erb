@@ -1,0 +1,131 @@
+<% default_mount_color = CustomFrame::MountColor.first %>
+
+<div id="frames">
+  <load-upload-preview
+    v-slot="{ upload }"
+    get-photo-preview-path="<%= main_app.api_show_hang_photo_path %>"
+  >
+      <div class="w-full">
+          <div class="md:block md:col-span-2 web_hide_div">
+            <%= image_tag('frames/customframe.png', class: 'w-full h-auto') %>
+          </div>
+      <div class="w-full max-w-screen-xl px-6 mx-auto pt-19 md:pt-29 pb-25">
+        <div class="grid md:grid-cols-4 gap-x-6 pb-14 w-full">
+          <div class="flex items-center md:col-span-2">
+            <div>
+              <h2 class="font-heading text-2xl leading-2xl md:text-5xl md:leading-5xl">Design your own<span class="font-heading text-2xl leading-2xl md:text-5xl md:leading-5xl italic" > frame</span></h2>
+              <p class="text-base-plus leading-base-plus md:text-xl md:leading-xl md:max-w-114">
+                Already own something that needs framing? Or have a really special digital photo that deserves a unique frame? Then this is the option for you! Fully customise everything - styles, sizes, personalisation. Handmade by experts using premium quality materials. Order from the confort of your home, with free delivery and  art 'pick up' service.
+              </p>
+            </div>
+          </div>
+          <div class="md:block md:col-span-2 mobile_hide_div">
+            <%= image_tag('frames/customframe.png', class: 'w-full h-auto') %>
+          </div>
+        </div>
+        <div class="flex min-w-screen overflow-x-scroll -mx-6 px-6 pb-2 gap-x-6 md:grid md:min-w-auto md:overflow-x-auto md:grid-cols-4">
+          <% cache base_cache_key + ['browse_frames_custom', @custom_frames.map(&:id).join(',')] do %>
+            <% @custom_frames.each do |product| %>
+              <% default_variant = product.default_variant %>
+              <% variant_presenter = Frame::FrameVariantPresenter.new(default_variant) %>
+              <% mount_color_presenter = default_mount_color ? CustomFrame::MountColorPresenter.new(default_mount_color) : nil %>
+
+              <product-card
+                class="w-10/12 md:w-full flex-shrink-0"
+                :variant="<%= JSON.dump(variant_presenter.to_h) %>"
+                :mount-color="<%= JSON.dump(mount_color_presenter.to_h) %>"
+                :upload="upload"
+                :is-custom="<%= product.custom? %>"
+                name="<%= product.name %>"
+                description="<%= product.short_description %>"
+                target-url="<%= spree.product_path(product) %>"
+              >
+              </product-card>
+            <% end %>
+          <% end %>
+        </div>
+        <a href="/t/custom" class='mx-auto block text-center w-full max-w-77 tracking-wide text-sm leading-lg font-bold uppercase focus:outline-none bg-yellow border-yellow hover:bg-yellow2 hover:border-yellow2 text-grey border-2 rounded-lg cursor-pointer py-4 mt-12 md:mt-18'>
+          DESIGN A CUSTOM FRAME
+        </a>
+      </div>
+    </div>
+
+    <div class="w-full bg-neutral">
+      <div class="w-full max-w-screen-xl px-6 mx-auto pt-19 md:pt-29 pb-25">
+        <div class="grid md:grid-cols-4 gap-x-6 pb-14 w-full">
+          <div class="flex items-center md:col-span-2">
+            <div>
+              <h3 class="font-heading text-2xl leading-2xl md:text-5xl md:leading-5xl">Standard sizes & gift frames</h3>
+              <p class="text-base-plus leading-base-plus md:text-xl md:leading-xl md:max-w-114">
+                Cost effective readymade sizes. Choose a frame style then upload your photo and we'll print, build, and dispatch your frame the next day. Ideal for quick gifts.
+              </p>
+            </div>
+          </div>
+          <div class="md:block md:col-span-2">
+            <%= image_tag('frames/standardframe.png', class: 'w-full h-auto') %>
+          </div>
+        </div>
+        <div class="flex min-w-screen overflow-x-scroll -mx-6 px-6 pb-2 gap-x-6 md:grid md:min-w-auto md:overflow-x-auto md:grid-cols-4">
+          <% cache base_cache_key + ['browse_frames_standard', @standard_frames.map(&:id).join(',')] do %>
+            <% @standard_frames.each do |product| %>
+              <% default_variant = product.default_variant %>
+              <% variant_presenter = Frame::FrameVariantPresenter.new(default_variant) %>
+              <% mount_color_presenter = default_mount_color ? CustomFrame::MountColorPresenter.new(default_mount_color) : nil %>
+
+              <product-card
+                class="w-10/12 md:w-full flex-shrink-0"
+                :variant="<%= JSON.dump(variant_presenter.to_h) %>"
+                :mount-color="<%= JSON.dump(mount_color_presenter.to_h) %>"
+                :upload="upload"
+                :is-custom="<%= product.custom? %>"
+                name="<%= product.name %>"
+                description="<%= product.short_description %>"
+                target-url="<%= spree.product_path(product) %>"
+              >
+              </product-card>
+            <% end %>
+          <% end %>
+        </div>
+        <a href="/t/standard" class='mx-auto block text-center w-full max-w-77 tracking-wide text-sm leading-lg font-bold uppercase focus:outline-none bg-yellow border-yellow hover:bg-yellow2 hover:border-yellow2 text-grey border-2 rounded-lg cursor-pointer py-4 mt-12 md:mt-18'>
+          SHOP STANDARD FRAMES
+        </a>
+      </div>
+    </div>
+
+    <div class="w-full bg-neutral">
+      <div class="w-full max-w-screen-xl px-6 mx-auto pt-19 md:pt-29 pb-25">
+        <div class="grid md:grid-cols-4 gap-x-6 gap-y-14 w-full">
+          <div class="flex items-center md:col-span-2">
+            <div>
+              <h3 class="font-heading text-2xl leading-2xl md:text-5xl md:leading-5xl">Gallery walls</h3>
+              <p class="text-base-plus leading-base-plus md:text-xl md:leading-xl md:max-w-114">
+                Want that statement gallery wall without the hassle? Choose one of our gallery walls and upload your photos in minutes, or get one of our designers to help create a truly custom one. Coming soon!
+              </p>
+            </div>
+          </div>
+          <div class="md:block md:col-span-2">
+            <%= image_tag('frames/gallery-walls.jpg', class: 'w-full h-auto') %>
+          </div>
+        </div>
+
+        <a class='mx-auto block text-center w-full max-w-77 tracking-wide text-sm leading-lg font-bold uppercase focus:outline-none bg-yellow border-yellow hover:bg-yellow2 hover:border-yellow2 text-grey border-2 rounded-lg cursor-pointer py-4 mt-12 md:mt-18'>
+          Coming soon!
+        </a>
+      </div>
+    </div>
+  </load-upload-preview>
+</div>
+
+<style>
+@media all and (max-width: 540px) {
+  .mobile_hide_div {
+    display: none;
+  }
+
+}
+@media all and (min-width: 540px){
+  .web_hide_div{
+    display: none;
+  }
+}
+</style>

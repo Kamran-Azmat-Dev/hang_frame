@@ -1,0 +1,35 @@
+ <div>
+  <h5 class="text-base-plus leading-base-plus md:text-xl md:leading-xl mb-1">
+    Contact
+  </h5>
+  <p class="md:text-lg md:leading-lg text-grey50">
+    <%= @order.email %>
+  </p>
+</div>
+
+<div class="mt-4">
+  <h5 class="text-base-plus leading-base-plus md:text-xl md:leading-xl mb-1">
+    Payment method
+  </h5>
+  <p class="md:text-lg md:leading-lg text-grey50">
+    <%= render collection: @order.payments.valid, partial: 'spree/shared/payment' %>
+  </p>
+</div>
+
+<div class="mt-4">
+  <h5 class="text-base-plus leading-base-plus md:text-xl md:leading-xl mb-1">
+    Delivery address
+  </h5>
+  <p class="md:text-lg md:leading-lg text-grey50">
+    <%= render 'spree/shared/address', address: @order.ship_address %>
+  </p>
+</div>
+
+<div class="mt-4">
+  <h5 class="text-base-plus leading-base-plus md:text-xl md:leading-xl mb-1">
+    Billing address
+  </h5>
+  <p class="md:text-lg md:leading-lg text-grey50">
+    <%= render 'spree/shared/address', address: @order.ship_address %>
+  </p>
+</div>

@@ -1,0 +1,37 @@
+<% content_for :page_title do %>
+  <%= plural_resource_name(CustomFrame::CustomMountPreference) %>
+<% end %>
+
+<% content_for :page_actions do %>
+  <%= button_link_to Spree.t(:new_mount_preference), new_admin_custom_mount_preference_url, { class: "btn-success", icon: 'add.svg', id: 'admin_new_country' } %>
+<% end if can? :create, CustomFrame::CustomMountPreference %>
+
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+    <tr>
+      <th><%= Spree.t(:default_size) %></th>
+      <th><%= Spree.t(:min_value) %></th>
+      <th><%= Spree.t(:max_value) %></th>
+      <th><%= Spree.t(:price) %></th>
+      <th data-hook="admin_promotions_index_header_actions" class="actions"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @custom_mount_preferences.each do |mount_preference| %>
+      <tr id="<%= spree_dom_id mount_preference %>">
+        <td><%= mount_preference.default_size %></td>
+        <td><%= mount_preference.min_value %></td>
+        <td><%= mount_preference.max_value %></td>
+        <td><%= mount_preference.price %></td>
+        <td class="actions" data-hook="admin_promotions_index_row_actions">
+          <span class="d-flex justify-content-end">
+            <%= link_to_edit(mount_preference, no_text: true) if can? :edit, mount_preference %>
+            <%= link_to_delete(mount_preference, no_text: true) if can? :delete, mount_preference %>
+          </span>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>

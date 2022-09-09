@@ -1,0 +1,35 @@
+<div class="w-full max-w-screen-xl px-6 mx-auto">
+  <div class="grid md:grid-cols-4 gap-6">
+    <%= render partial: 'spree/shared/account_sidebar', locals: { active: 'addresses', classes: 'hidden md:block' } %>
+
+    <div class="md:col-span-3 md:pt-29 pb-25">
+      <div class="grid md:grid-cols-9 gap-6">
+        <div class="md:col-span-1">
+        </div>
+
+        <div class="md:col-span-8">
+          <div class="flex">
+            <div class="ml-auto mr-0 mb-5">
+              <%= link_to('Add new +', spree.new_address_path, class: 'hover:underline md:text-lg md:leading-lg') %>
+            </div>
+          </div>
+          <% if @addresses.present? %>
+            <div class="grid md:grid-cols-2 gap-6">
+              <% @addresses.each_with_index do |address, index| %>
+                <div>
+                  <%= render "spree/users/address", address: address %>
+                  <div class="mt-2"></div>
+                  <%= render "spree/users/address_controls", address: address %>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <p class="text-base-plus leading-base-plus md:text-xl md:leading-xl">
+              You don't have any saved addresses.
+            </p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

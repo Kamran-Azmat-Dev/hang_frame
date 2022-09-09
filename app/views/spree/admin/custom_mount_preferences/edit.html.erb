@@ -1,0 +1,13 @@
+<% content_for :page_title do %>
+  <%= link_to Spree.t(:mount_preference), spree.admin_custom_mount_preferences_url %> /
+  <%= @custom_mount_preference.default_size %>
+<% end %>
+
+<%= render partial: 'spree/admin/shared/error_messages', locals: { target: @custom_mount_preference } %>
+
+<%= form_for @custom_mount_preference, url: admin_custom_mount_preference_url do |f| %>
+  <fieldset>
+    <%= render partial: 'form', locals: { f: f } %>
+    <%= render partial: 'spree/admin/shared/edit_resource_links' %>
+  </fieldset>
+<% end %>

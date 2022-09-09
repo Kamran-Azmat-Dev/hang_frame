@@ -1,0 +1,40 @@
+<% content_for :page_title do %>
+  <%= plural_resource_name(CustomFrame::PrintSize) %>
+<% end %>
+
+<% content_for :page_actions do %>
+  <%= button_link_to Spree.t(:new_print_size), new_object_url, { class: "btn-success", icon: 'add.svg', id: 'admin_new_country' } %>
+<% end if can? :create, CustomFrame::PrintSize %>
+
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+    <tr>
+      <th><%= Spree.t(:label) %></th>
+      <th><%= Spree.t(:name) %></th>
+      <th><%= Spree.t(:shortest_side) %></th>
+      <th><%= Spree.t(:longest_side) %></th>
+      <th><%= Spree.t(:visible?) %></th>
+      <th data-hook="admin_promotions_index_header_actions" class="actions"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @custom_frame_print_sizes.each do |print_size| %>
+      <tr id="<%= spree_dom_id print_size %>">
+        <td><%= print_size.label %></td>
+        <td><%= print_size.name %></td>
+        <td><%= print_size.shortest_side %></td>
+        <td><%= print_size.longest_side %></td>
+        <td><%= print_size.visible? %></td>
+        <td class="actions" data-hook="admin_promotions_index_row_actions">
+          <span class="d-flex justify-content-end">
+            <%= button_link_to('Edit prices', admin_custom_frame_print_size_custom_frame_moulding_type_prices_path(print_size)) if can? :edit, print_size %>
+            <%= link_to_edit(print_size, no_text: true) if can? :edit, print_size %>
+            <%= link_to_delete(print_size, no_text: true) if can? :delete, print_size %>
+          </span>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>

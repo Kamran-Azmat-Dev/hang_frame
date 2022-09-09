@@ -1,0 +1,13 @@
+<%= render partial: 'spree/shared/error_messages', locals: { target: @spree_user } %>
+
+<div class="w-full max-w-screen-xl px-6 mx-auto mt-16 md:mt-29 mb-25">
+  <div class="w-full md:max-w-114 mx-auto flex flex-col items-center">
+    <h3 class="font-heading text-2xl leading-2xl md:text-5xl md:leading-5xl"><%= Spree.t(:change_your_password) %></h3>
+    <%= form_for @spree_user, as: :spree_user, url: spree.update_password_path, method: :put, html: { class: 'mt-8 md:mt-9 w-full md:max-w-81' } do |f| %>
+      <%= f.password_field :password, class: 'w-full px-4 py-3 mb-2 md:text-lg md:leading-lg border border-grey50 text-grey rounded-sm focus:outline-none focus:border-grey disabled:text-grey50', placeholder: Spree.t(:password) %>
+      <%= f.password_field :password_confirmation, class: 'w-full px-4 py-3 mb-2 md:text-lg md:leading-lg border border-grey50 text-grey rounded-sm focus:outline-none focus:border-grey disabled:text-grey50', placeholder: Spree.t(:confirm_password) %>
+      <%= f.hidden_field :reset_password_token %>
+      <%= f.submit 'Update password', class: 'w-full tracking-wide text-sm leading-lg font-bold uppercase focus:outline-none bg-yellow border-yellow hover:bg-yellow2 hover:border-yellow2 text-grey border-2 rounded-lg cursor-pointer py-4 mt-6' %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="md:bg-neutral relative <%= local_assigns.fetch(:classes, '') %>">
+  <div class="absolute right-0 top-0 bottom-0 md:bg-neutral overflow-hidden" style="width: 1000px; z-index: -1;"></div>
+  <div class="pt-6 md:pt-29 md:pb-25 z-50">
+    <h3 class="font-heading text-2xl leading-2xl md:text-5xl md:leading-5xl">
+      Hi <%= try_spree_current_user&.addresses&.first&.first_name %>
+    </h3>
+    <p class="mt-4 md:mt-10 text-base-plus leading-base-plus md:text-xl md:leading-xl">
+      Manage your personal information below.
+    </p>
+    <ul class="mt-8">
+      <li class="mb-2 md:mb-4"><%= link_to 'My orders', spree.account_path, class: 'text-base-plus leading-base-plus md:text-xl md:leading-xl hover:underline ' + (local_assigns.fetch(:active, '') == 'orders' ? 'underline' : '') %></li>
+      <li class="mb-2 md:mb-4"><%= link_to 'Personal details', spree.addresses_path, class: 'text-base-plus leading-base-plus md:text-xl md:leading-xl hover:underline ' + (local_assigns.fetch(:active, '') == 'addresses' ? 'underline' : '') %></li>
+      <li class="mb-2 md:mb-4"><%= link_to 'Change password', spree.edit_user_path(try_spree_current_user), class: 'text-base-plus leading-base-plus md:text-xl md:leading-xl hover:underline '  + (local_assigns.fetch(:active, '') == 'password' ? 'underline' : '') %></li>
+      <li class="mb-2 md:mb-4"><%= link_to 'Sign out', spree_logout_path, class: 'text-base-plus leading-base-plus md:text-xl md:leading-xl hover:underline', onclick: 'clearCookies()' %></li>
+    </ul>
+  </div>
+  <hr class="mt-8 border-t border-grey opacity-20 md:hidden">
+</div>
+
+<script>
+function clearCookies() {
+  $cookies.remove('uploadUUID')
+}
+</script>

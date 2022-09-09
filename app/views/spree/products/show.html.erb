@@ -1,0 +1,81 @@
+<div id="product-details" class="w-full bg-neutral">
+  <load-upload-preview
+    v-slot="{ upload }"
+    get-photo-preview-path="<%= main_app.api_show_hang_photo_path %>"
+  >
+    <% if @product.custom? %>
+      <custom-product-details
+        :upload="upload"
+        :initial-product="<%= JSON.dump(@details_presenter.to_h) %>"
+        :available-mount-colors="<%= JSON.dump(@mount_colors_presenter.to_h) %>"
+        :available-foil-blocking-colors="<%= JSON.dump(@foil_blocking_colors_presenter.to_h) %>"
+        :routes="{
+          availableOptionsPath: '<%= main_app.api_show_hang_photo_available_options_path %>',
+          changePhotoPath: '<%= digital_upload_path %>',
+          changeArtDimensionsPath: '<%= digital_upload_path %>',
+          digitalUploadPath: '<%= digital_upload_path %>',
+          ensureCartPath: '<%= spree.ensure_cart_path %>',
+          getCartPath: '<%= spree.api_v2_storefront_cart_path %>',
+          addToCartPath: '<%= spree.add_item_api_v2_storefront_cart_path %>',
+          startFramingPath: '<%= spree.root_path %>',
+          showProductPath: '<%= main_app.api_custom_frame_path(':id') %>',
+          chevronsPath: '<%= main_app.chevrons_api_custom_frames_path %>',
+          originalArtUploadPath: '<%= original_art_upload_path %>',
+        }"
+        <% if params[:clone_line_item_id].present? %>
+          :clone-line-item-id="<%= params[:clone_line_item_id] %>"
+        <% end %>
+      >
+      </custom-product-details>
+    <% elsif !@product.custom? && @product.taxons.map(&:name).include?('Personalized')%>
+
+     <custom-product-details
+        :upload="upload"
+        :initial-product="<%= JSON.dump(@details_presenter.to_h) %>"
+        :available-mount-colors="<%= JSON.dump(@mount_colors_presenter.to_h) %>"
+        :available-foil-blocking-colors="<%= JSON.dump(@foil_blocking_colors_presenter.to_h) %>"
+        :routes="{
+          availableOptionsPath: '<%= main_app.api_show_hang_photo_available_options_path %>',
+          changePhotoPath: '<%= digital_upload_path %>',
+          changeArtDimensionsPath: '<%= digital_upload_path %>',
+          digitalUploadPath: '<%= digital_upload_path %>',
+          ensureCartPath: '<%= spree.ensure_cart_path %>',
+          getCartPath: '<%= spree.api_v2_storefront_cart_path %>',
+          addToCartPath: '<%= spree.add_item_api_v2_storefront_cart_path %>',
+          startFramingPath: '<%= spree.root_path %>',
+          showProductPath: '<%= main_app.api_standard_frame_path(':id') %>',
+          chevronsPath: '<%= main_app.chevrons_api_standard_frames_path %>',
+          originalArtUploadPath: '<%= original_art_upload_path %>',
+        }"
+        <% if params[:clone_line_item_id].present? %>
+          :clone-line-item-id="<%= params[:clone_line_item_id] %>"
+        <% end %>
+      >
+      </custom-product-details>
+      <%else %>
+      <standard-product-details
+        :upload="upload"
+        :initial-product="<%= JSON.dump(@details_presenter.to_h) %>"
+        :available-mount-colors="<%= JSON.dump(@mount_colors_presenter.to_h) %>"
+        :available-foil-blocking-colors="<%= JSON.dump(@foil_blocking_colors_presenter.to_h) %>"
+        :routes="{
+          availableOptionsPath: '<%= main_app.api_show_hang_photo_available_options_path %>',
+          changePhotoPath: '<%= digital_upload_path %>',
+          changeArtDimensionsPath: '<%= digital_upload_path %>',
+          digitalUploadPath: '<%= digital_upload_path %>',
+          ensureCartPath: '<%= spree.ensure_cart_path %>',
+          getCartPath: '<%= spree.api_v2_storefront_cart_path %>',
+          addToCartPath: '<%= spree.add_item_api_v2_storefront_cart_path %>',
+          startFramingPath: '<%= spree.root_path %>',
+          showProductPath: '<%= main_app.api_standard_frame_path(':id') %>',
+          chevronsPath: '<%= main_app.chevrons_api_standard_frames_path %>',
+          originalArtUploadPath: '<%= original_art_upload_path %>',
+        }"
+        <% if params[:clone_line_item_id].present? %>
+          :clone-line-item-id="<%= params[:clone_line_item_id] %>"
+        <% end %>
+      >
+      </standard-product-details>
+    <% end %>
+  </load-upload-preview>
+</div>

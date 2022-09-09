@@ -1,0 +1,13 @@
+<% content_for :page_title do %>
+  <%= link_to Spree.t(:frame_mount_types), spree.admin_custom_frame_mount_types_url %> /
+  <%= Spree.t(:new_frame_mount_type) %>
+<% end %>
+
+<%= render partial: 'spree/admin/shared/error_messages', locals: { target: @custom_frame_mount_type } %>
+
+<%= form_for [:admin, @custom_frame_mount_type] do |f| %>
+  <fieldset>
+    <%= render partial: 'form', locals: { f: f } %>
+    <%= render partial: 'spree/admin/shared/new_resource_links' %>
+  </fieldset>
+<% end %>

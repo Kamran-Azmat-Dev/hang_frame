@@ -1,0 +1,20 @@
+<%= javascript_pack_tag 'admin', 'data-turbolinks-track': 'reload' %>
+<% foil_blocking_adjustment = @line_item.foil_blocking_adjustment %>
+<% if foil_blocking_adjustment.present? %>
+  <% foil_blocking_configuration = JSON.parse(foil_blocking_adjustment&.notes[13..-1]) %>
+  <% foil_blocking_configuration.merge!({ chosen: true }) %>
+<% else %>
+  <% foil_blocking_configuration = { chosen: false } %>
+<% end %>
+
+<div id="worksheet-frame-preview">
+  <custom-frame-preview
+    style="width: 80%; height: 80%"
+    namespace="<%= @line_item.id %>"
+    :upload="<%= JSON.dump(@presenter.upload_presenter.to_h) %>"
+    :mount-dimensions="<%= JSON.dump(@presenter.mount_dimensions_presenter.to_h) %>"
+    :foil-blocking-options="<%= JSON.dump(foil_blocking_configuration) %>"
+    :configuration="<%= JSON.dump(@presenter.preview_configuration_presenter.to_h) %>"
+  >
+  </custom-frame-preview>
+</div>

@@ -1,0 +1,21 @@
+<% @body_id = 'home' %>
+
+<div id="photo-upload">
+  <upload-steps-original-art
+    :routes="{
+      uploadPhotoPath: '<%= main_app.api_upload_hang_photo_path %>',
+      getPhotoPreviewPath: '<%= main_app.api_show_hang_photo_path %>',
+      updateCropDetailsPath: '<%= main_app.api_crop_hang_photo_path %>',
+      standardFramesPath: '<%= spree.nested_taxons_path('standard') %>',
+      customFramesPath: '<%= spree.nested_taxons_path('custom') %>',
+      ensureCartPath: '<%= spree.ensure_cart_path %>',
+      getCartPath: '<%= spree.api_v2_storefront_cart_path %>',
+      productPath: '<%= spree.product_path(':id') %>',
+    }"
+    :original-art-types="<%= JSON.dump(@original_art_types_presenter.to_h) %>"
+    <% if params[:clone_line_item_id].present? %>
+      :clone-line-item-id="<%= params[:clone_line_item_id] %>"
+    <% end %>
+  >
+  </upload-steps-original-art>
+</div>

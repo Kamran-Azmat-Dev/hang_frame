@@ -1,0 +1,13 @@
+<% cache spree_nav_cache_key('footer') do %>
+  <footer id="footer" data-turbolinks-permanent>
+    <page-footer
+      :routes="{
+        startFramingPath: '<%= spree.root_path %>',
+        digitalUploadPath: '<%= digital_upload_path %>',
+        originalArtUploadPath: '<%= original_art_upload_path %>',
+        allProductsPath: '<%= spree.frames_path %>',
+      }"
+    >
+    </page-footer>
+  </footer>
+<% end %>

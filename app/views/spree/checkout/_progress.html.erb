@@ -1,0 +1,19 @@
+<div class="bg-neutral -mx-6 md:mx-0 md:mt-11 py-4">
+  <ul class="text-sm uppercase tracking-wide flex justify-center">
+    <li>
+      <%= link_to('Basket', spree.cart_path, class: 'hover:underline') %>
+      <span class="text-xs mx-2 md:mx-7">&gt;</span>
+    </li>
+    <li>
+      <%= link_to('Address', spree.checkout_state_path('address'), class: 'hover:underline ' + (local_assigns.fetch(:state, '') == 'address' ? 'underline' : '')) %>
+      <span class="text-xs mx-2 md:mx-7">&gt;</span>
+    </li>
+    <li>
+      <%= link_to('Delivery', spree.checkout_state_path('delivery'), class: 'hover:underline ' + (local_assigns.fetch(:state, '') == 'delivery' ? 'underline' : '')) %>
+      <span class="text-xs mx-2 md:mx-7">&gt;</span>
+    </li>
+    <li>
+      <%= link_to('Payment', spree.checkout_state_path('payment'), class: 'hover:underline ' + (local_assigns.fetch(:state, '') == 'payment' ? 'underline' : '')) %>
+    </li>
+  </ul>
+</div>

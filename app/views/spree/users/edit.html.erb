@@ -1,0 +1,21 @@
+<div class="w-full max-w-screen-xl px-6 mx-auto">
+  <div class="grid md:grid-cols-4 gap-6">
+    <%= render partial: 'spree/shared/account_sidebar', locals: { active: 'password', classes: 'hidden md:block' } %>
+
+    <div class="md:col-span-3 pt-16 md:pt-29 pb-25">
+      <div class="grid md:grid-cols-9 gap-6">
+        <div class="md:col-span-1">
+        </div>
+
+        <div class="md:col-span-5">
+          <%= render partial: 'spree/shared/error_messages', locals: { target: @user } %>
+
+          <h3 class="font-heading text-2xl leading-2xl md:text-5xl md:leading-5xl mb-4">Change password</h3>
+          <%= form_for Spree.user_class.new, as: @user, url: spree.user_path(@user), method: :put do |f| %>
+            <%= render partial: 'spree/shared/user_form', locals: { f: f, remember_me_field: false } %>
+          <div>
+          <%= f.submit Spree.t(:update), class: 'tracking-wide text-sm leading-lg font-bold uppercase focus:outline-none bg-yellow border-yellow hover:bg-yellow2 hover:border-yellow2 text-grey border-2 rounded-lg cursor-pointer py-4 px-30 mt-6' %>
+        </div>
+    </div>
+  <% end %>
+</div>

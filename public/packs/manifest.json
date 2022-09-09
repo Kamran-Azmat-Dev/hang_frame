@@ -1,0 +1,89 @@
+{
+  "admin.js": "/packs/js/admin-c0d9a86678f0f61972ad.js",
+  "admin.js.map": "/packs/js/admin-c0d9a86678f0f61972ad.js.map",
+  "application.js": "/packs/js/application-4c1c7feca33c0cf6234f.js",
+  "application.js.map": "/packs/js/application-4c1c7feca33c0cf6234f.js.map",
+  "components.js": "/packs/js/components-8478063f107c8f89f4e7.js",
+  "components.js.map": "/packs/js/components-8478063f107c8f89f4e7.js.map",
+  "entrypoints": {
+    "admin": {
+      "js": [
+        "/packs/js/admin-c0d9a86678f0f61972ad.js"
+      ],
+      "js.map": [
+        "/packs/js/admin-c0d9a86678f0f61972ad.js.map"
+      ]
+    },
+    "application": {
+      "js": [
+        "/packs/js/application-4c1c7feca33c0cf6234f.js"
+      ],
+      "js.map": [
+        "/packs/js/application-4c1c7feca33c0cf6234f.js.map"
+      ]
+    },
+    "components": {
+      "js": [
+        "/packs/js/components-8478063f107c8f89f4e7.js"
+      ],
+      "js.map": [
+        "/packs/js/components-8478063f107c8f89f4e7.js.map"
+      ]
+    },
+    "spree_google_analytics": {
+      "js": [
+        "/packs/js/spree_google_analytics-d77332a07c407f253d2b.js"
+      ],
+      "js.map": [
+        "/packs/js/spree_google_analytics-d77332a07c407f253d2b.js.map"
+      ]
+    }
+  },
+  "media/fonts/Apercu-Light.otf": "/packs/media/fonts/Apercu-Light-3135dba7ca42dc6207cf7a64c438fe95.otf",
+  "media/fonts/Apercu-Medium.otf": "/packs/media/fonts/Apercu-Medium-aedaec26a758f9fbd8d413e0a188fda3.otf",
+  "media/fonts/Canela-Thin.otf": "/packs/media/fonts/Canela-Thin-6397a05195d46800b3b48216a3aecae4.otf",
+  "media/fonts/Canela-ThinItalic.otf": "/packs/media/fonts/Canela-ThinItalic-afebb401dfb74c97d149e66413bfa027.otf",
+  "media/images/Group.png": "/packs/media/images/Group-8f5600a92bb1107e3baf03ed05ca677b.png",
+  "media/images/arrow-down.svg": "/packs/media/images/arrow-down-05f221e328dd9a2319f56bd41e19878b.svg",
+  "media/images/arrow-quantity-down.svg": "/packs/media/images/arrow-quantity-down-c954759272294b21b092374c4240bb94.svg",
+  "media/images/arrow-quantity-up.svg": "/packs/media/images/arrow-quantity-up-155291e7312183635156578b0f9be144.svg",
+  "media/images/border-pattern-placeholder.jpg": "/packs/media/images/border-pattern-placeholder-57b08bfe8e021052195d62bf760570d4.jpg",
+  "media/images/carousel-next.svg": "/packs/media/images/carousel-next-070237b07f2a22bec57c915732cbc769.svg",
+  "media/images/cart.svg": "/packs/media/images/cart-a658f4322b783b7024887231772b10b6.svg",
+  "media/images/checkbox-check.svg": "/packs/media/images/checkbox-check-b257fb585e82fa7e7fa5ecc36fa19ae6.svg",
+  "media/images/chevrons.png": "/packs/media/images/chevrons-a1bab11564b27de7942e5e7e0bde46ab.png",
+  "media/images/close-cart-drawer.svg": "/packs/media/images/close-cart-drawer-6e14cd8515dc08527140edd124b8e38b.svg",
+  "media/images/close-hamburger-menu.svg": "/packs/media/images/close-hamburger-menu-2a3b2dbab546c057cbffb8261b8cd8ee.svg",
+  "media/images/crop-preset-freeform.svg": "/packs/media/images/crop-preset-freeform-47c39026be967dafb46df3816ca71365.svg",
+  "media/images/crop-preset-landscape.svg": "/packs/media/images/crop-preset-landscape-7a888495c2aed326081ab3d8307a5c32.svg",
+  "media/images/crop-preset-portrait.svg": "/packs/media/images/crop-preset-portrait-1337eb051ee695bed63a8bf4e7c8364b.svg",
+  "media/images/crop-preset-square.svg": "/packs/media/images/crop-preset-square-dc3a19ce51d7e58a1b815590a862f8ea.svg",
+  "media/images/facebook.svg": "/packs/media/images/facebook-6c836a8321a95985d59c7b588756b754.svg",
+  "media/images/instagram.svg": "/packs/media/images/instagram-34275c83da69ba0058d8fc6f1229662e.svg",
+  "media/images/loading.gif": "/packs/media/images/loading-ff2dfa442d903d9d5e303345b82e5415.gif",
+  "media/images/logo-white.svg": "/packs/media/images/logo-white-a06cc5f9d7c5151e4f81c160997f48f4.svg",
+  "media/images/logo.svg": "/packs/media/images/logo-53eda53696dabc99444cd45e6de4397f.svg",
+  "media/images/menu.svg": "/packs/media/images/menu-358af27ae60dd136e044ab5a7158dc17.svg",
+  "media/images/mount-border-bottom-right-placeholder.jpg": "/packs/media/images/mount-border-bottom-right-placeholder-e44891918183d1ec5f23ec9272f272c3.jpg",
+  "media/images/mount-border-top-left-placeholder.jpg": "/packs/media/images/mount-border-top-left-placeholder-2b62b349aef2f71ef5f39c578eb0e837.jpg",
+  "media/images/mount-oversized.svg": "/packs/media/images/mount-oversized-404e4b1f5e60fe02f44c803755a06b10.svg",
+  "media/images/mount-pattern-placeholder.jpg": "/packs/media/images/mount-pattern-placeholder-909967fb64999991aa9d1788695f41ca.jpg",
+  "media/images/mount-standard.svg": "/packs/media/images/mount-standard-e9200aa157a94e964f879394831618b3.svg",
+  "media/images/mount-thin.svg": "/packs/media/images/mount-thin-e27cee25a3ba9d6b5229853866cb20b1.svg",
+  "media/images/mount-weighted.svg": "/packs/media/images/mount-weighted-f611e43bac6a9531df306b737d0d1a87.svg",
+  "media/images/mount-wide.svg": "/packs/media/images/mount-wide-77d38305c821c6dafc4177a9b193195e.svg",
+  "media/images/navbar-all-frames.png": "/packs/media/images/navbar-all-frames-5544198e626b80cddca8145ba4f98017.png",
+  "media/images/navbar-go-to-standard.png": "/packs/media/images/navbar-go-to-standard-7131b5f69c38c055b83a238ec5e60b95.png",
+  "media/images/navbar-upload-digital.png": "/packs/media/images/navbar-upload-digital-ca1b4767ca1cd539b0f054d2f4f83046.png",
+  "media/images/navbar-upload-original-art.png": "/packs/media/images/navbar-upload-original-art-c25243d6783d6729a674baf5d463a16e.png",
+  "media/images/photo-placeholder.jpg": "/packs/media/images/photo-placeholder-78613966eac4b15e347986ac96eabb1a.jpg",
+  "media/images/pinterest.svg": "/packs/media/images/pinterest-5558e3e1194f02aeb154f48029c20ef0.svg",
+  "media/images/profile.svg": "/packs/media/images/profile-e7c02624c777f154177908acc16539d0.svg",
+  "media/images/sample/chevron1.png": "/packs/media/images/sample/chevron1-5d9dad30dca3446ce9166df60eb3ec6d.png",
+  "media/images/sample/chevron2.png": "/packs/media/images/sample/chevron2-c582d788865565fd9cea0d794912dae8.png",
+  "media/images/sample/chevron3.png": "/packs/media/images/sample/chevron3-321a56ac5e3c1675e14f39710da633ff.png",
+  "media/images/sample/chevron4.png": "/packs/media/images/sample/chevron4-82d476a8f65bf625ff16b2a2688128eb.png",
+  "media/images/tooltip.png": "/packs/media/images/tooltip-7d8dc56d8f210365445cf87db0f1271a.png",
+  "spree_google_analytics.js": "/packs/js/spree_google_analytics-d77332a07c407f253d2b.js",
+  "spree_google_analytics.js.map": "/packs/js/spree_google_analytics-d77332a07c407f253d2b.js.map"
+}

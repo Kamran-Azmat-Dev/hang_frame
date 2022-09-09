@@ -1,0 +1,36 @@
+test: &default
+# ssl_options:
+#   ca_file: null
+
+  # Credentials for REST APIs
+  client_id: ATzkaFj1bTxGZW8tNbfxboH5LJv9sjqItC5MxBkopabaQLaR3yoIUhWjuH_jq6IBTWjeHkjx4DYcUJA_
+  client_secret: EGEoXMI9Z7tlCyGk3jZXINtsKr_nqNamYmvSQ1R-HM1_J8ImWgAhJM6zcbiGym6qSrKk-yfClyU-DOsB
+
+  # Mode can be 'live' or 'sandbox'
+  mode: sandbox
+
+  # Credentials for Classic APIs
+  # app_id: APP-80W284485P519543T
+  # username: sb-em5iu9475366_api1.business.example.com
+  # password: 58TDFAAMDPWZL95V
+  # signature: A83LpmKIEVVapbwR3A9K4rkDXFcGAnToegPwtrJ27ZUcxFachX5W07Il
+  # # With Certificate
+  # cert_path: "config/cert_key.pem"
+  sandbox_email_address: Platform.sdk.seller@gmail.com
+
+  # # IP Address
+  # ip_address: 127.0.0.1
+  # # HTTP Proxy
+  # http_proxy: http://proxy-ipaddress:3129/
+
+development:
+  <<: *default
+
+production:
+  <<: *default
+  mode: live
+  # client_id: CLIENT_ID
+  # client_secret: CLIENT_SECRET
+  username: andy_api1.hangframing.com
+  password: GFJCV7UTW79PAAW7
+  signature: AAFb.D1blSGUoqe5njLmGVlzWcCPAylvMc01YEKGKKtPF2PjfOVNlLcY

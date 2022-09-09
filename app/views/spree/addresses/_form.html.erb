@@ -1,0 +1,31 @@
+<% address_id = address_type.chars.first %>
+
+<% Spree::Address::ADDRESS_FIELDS.each do |field| %>
+  <% if field == "country" %>
+    <div class="form-group mb-3" id="<%= "#{address_id}country" %>">
+      <div id="<%= "#{address_id}country-selection" %>" class="d-block position-relative has-float-label">
+        <%= address_form.collection_select :country_id, available_countries, :id, :name,
+                                           { prompt: Spree.t(:country).upcase },
+                                           { class: 'w-full px-4 py-3 mb-2 md:text-lg md:leading-lg border border-grey50 text-grey rounded-sm focus:outline-none focus:border-grey disabled:text-grey50 col-lg-4',
+                                             aria: { label: Spree.t(:country) } } %>
+      </div>
+    </div>
+  <% elsif field == "zipcode" %>
+    <div class="form-group mb-3">
+      <div>
+        <%= address_form.text_field field.to_sym, class: 'w-full px-4 py-3 mb-2 md:text-lg md:leading-lg border border-grey50 text-grey rounded-sm focus:outline-none focus:border-grey disabled:text-grey50', placeholder: 'Postcode*' %>
+      </div>
+    </div>
+  <% else %>
+    <% next if field == "company" && !Spree::Config[:company] %>
+    <% next if field == "alternative_#{address_id}_phone" && !Spree::Config["alternative_#{address_id}_phone"] %>
+    <div class="form-group mb-3">
+      <div id="<%= [address_id, field].join %>">
+        <% required_symbol = Spree::Address.required_fields.include?(field.to_sym) ? '*' : '' %>
+        <%= address_form.text_field field.to_sym, class: 'w-full px-4 py-3 mb-2 md:text-lg md:leading-lg border border-grey50 text-grey rounded-sm focus:outline-none focus:border-grey disabled:text-grey50', placeholder: "#{I18n.t("activerecord.attributes.spree/address.#{field}")}#{required_symbol}" %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+<p class="text-right text-uppercase mb-5 checkout-content-inner-field"><span id="required_marker"><%= Spree.t(:required) %></span> <%= Spree.t(:required_fields) %></p>

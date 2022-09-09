@@ -1,0 +1,126 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Order number</th>
+      <td><%= @line_item.order.number %></td>
+    </tr>
+    <% if @line_item.hang_photo.photo.present? %>
+      <tr>
+        <th>Photo</th>
+        <td><%= link_to('Download original', @line_item.hang_photo.photo.url(:original)) %>
+      </tr>
+    <% end %>
+    <tr>
+      <th>Cropped at</th>
+      <td>
+        <div>Top (px): <%= @line_item.hang_photo.top %></div>
+        <div>Left (px): <%= @line_item.hang_photo.left %></div>
+        <div>Width (px): <%= @line_item.hang_photo.width %></div>
+        <div>Height (px): <%= @line_item.hang_photo.height %></div>
+      </td>
+    </tr>
+    <tr>
+      <th>Crop parameters</th>
+      <td><%= @line_item.hang_photo.left %> <%= @line_item.hang_photo.top %> <%= @line_item.hang_photo.left + @line_item.hang_photo.width %> <%= @line_item.hang_photo.top + @line_item.hang_photo.height %></td>
+    </tr>
+    <% if @line_item.hang_photo.cropped_photo.present? %>
+      <tr>
+        <th>Crop preview (as seen by the customer)</th>
+        <td><%= link_to('Preview', @line_item.hang_photo.cropped_photo.url) %></td>
+      </tr>
+    <% end %>
+    <% if @line_item.product.custom? %>
+      <tr>
+        <th>Configured frame preview</th>
+        <td><%= link_to('Preview frame', preview_frame_admin_worksheet_path(@line_item)) %></td>
+      </tr>
+    <% end %>
+
+    <tr>
+      <th>Art type</th>
+      <td>
+        <% if @line_item.hang_photo.original? %>
+          Original art <%= "(#{@line_item.hang_photo.original_art_type&.name})" %>
+        <% else %>
+          Digital
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <th>Art width</th>
+      <td><%= @line_item.hang_photo.print_width %>cm</td>
+    </tr>
+    <tr>
+      <th>Art height</th>
+      <td><%= @line_item.hang_photo.print_height %>cm</td>
+    </tr>
+
+    <% if @line_item.product.standard? %>
+      <tr>
+        <th>Product</th>
+        <td><%= link_to([@line_item.product.sku, @line_item.product.name].reject(&:blank?).join(' - '), @line_item.product) %></td>
+      </tr>
+    <% else %>
+      <% linen_adjustment = @line_item.linen_adjustment %>
+      <tr>
+        <th>Moulding</th>
+        <td><%= @line_item.product.name %></td>
+      </tr>
+      <tr>
+        <th>Mount color</th>
+        <td>
+          <%= @line_item.mount_color&.name %>
+          <% if linen_adjustment.present? %>
+            - Linen
+          <% end %>
+        </td>
+      </tr>
+
+      <% mount_type_adjustment = @line_item.adjustments.custom_mount_type.first %>
+      <% if mount_type_adjustment.present? %>
+        <tr>
+          <th>Mount type</th>
+          <td>
+            <%= mount_type_adjustment.source&.label %>
+          </td>
+        </tr>
+        <tr>
+          <th>Mount dimensions</th>
+          <td>
+            <div>Top: <%= mount_type_adjustment.mount_top %>cm</div>
+            <div>Left: <%= mount_type_adjustment.mount_left %>cm</div>
+            <div>Right: <%= mount_type_adjustment.mount_right %>cm</div>
+            <div>Bottom: <%= mount_type_adjustment.mount_bottom %>cm</div>
+          </td>
+        </tr>
+      <% end %>
+
+      <% if @line_item.accent_mount_color.present? %>
+        <tr>
+          <th>Accent mount color</th>
+          <td><%= @line_item.accent_mount_color.name %></td>
+        </tr>
+      <% end %>
+
+      <% foil_blocking_adjustment = @line_item.foil_blocking_adjustment %>
+      <% if foil_blocking_adjustment.present? %>
+        <% parsed_foil_blocking = JSON.parse(foil_blocking_adjustment&.notes[13..-1]) %>
+        <tr>
+          <th>Foil blocking</th>
+          <td>
+            <div>Line1: <%= parsed_foil_blocking['line1'] || '[__EMPTY__]' %></div>
+            <div>Line2: <%= parsed_foil_blocking['line2'] || '[__EMPTY__]' %></div>
+            <div>Color: <%= parsed_foil_blocking.dig('color', 'name') || 'N/A' %></div>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+
+  </tbody>
+</table>

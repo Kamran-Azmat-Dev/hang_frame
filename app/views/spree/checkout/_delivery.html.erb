@@ -1,0 +1,69 @@
+<h5 class="text-base-plus leading-base-plus md:text-xl md:leading-xl mb-6 font-bold">
+  Delivery method
+</h5>
+<div id="shipping-method" style="width: 359px;" data-hook>
+  <div data-hook="shipping_method_inner">
+    <div id="methods">
+      <%= form.fields_for :shipments do |ship_form| %>
+        <% if ship_form.index === 0 %>
+          <div class="shipment">
+            <ul class="checkout-content-shipping-methods-list">
+                <li class="shipping-method mb-8">
+                  <div class="vspree-radio-container">
+                    <%= ship_form.radio_button :selected_shipping_rate_id,
+                      ship_form.object.shipping_rates.first.id,
+                      data: {
+                        behavior: 'shipping-method-selector',
+                        cost: ship_form.object.shipping_rates.first.display_cost,
+                        tax: ship_form.object.shipping_rates.first.display_tax_amount
+                      },
+                      class: 'vspree-radio-input'
+                    %>
+                    <%= ship_form.label :selected_shipping_rate_id, value: ship_form.object.shipping_rates.first.id, class: 'vspree-radio-label flex select-none' do %>
+                      <div class="flex flex-col">
+                        <strong class="md:text-lg md:leading-lg"><%= ship_form.object.shipping_rates.first.name %></strong>
+                        <p class="md:text-lg md:leading-lg font-bold"><%= ship_form.object.shipping_rates.first.display_cost %></p>
+                      </div>
+                    <% end %>
+                  </div>
+                </li>
+            </ul>
+            <% if @order.frame_line_items.any? { |e| e.product.custom? } %>
+              <ul class="checkout-content-shipping-methods-list">
+                  <li class="shipping-method mb-8">
+                    <div class="vspree-radio-container">
+                      <%= ship_form.radio_button :selected_shipping_rate_id,
+                        ship_form.object.shipping_rates.second.id,
+                        data: {
+                          behavior: 'shipping-method-selector',
+                          cost: ship_form.object.shipping_rates.second.display_cost,
+                          tax: ship_form.object.shipping_rates.second.display_tax_amount
+                        },
+                        class: 'vspree-radio-input'
+                      %>
+                      <%= ship_form.label :selected_shipping_rate_id, value: ship_form.object.shipping_rates.second.id, class: 'vspree-radio-label flex select-none' do %>
+                        <div class="flex flex-col">
+                          <strong class="md:text-lg md:leading-lg"><%= ship_form.object.shipping_rates.second.name %></strong>
+                          <p class="md:text-lg md:leading-lg">Needing your custom frame fast? Then use the rush service to get it to the front of production.</p>
+                          <p class="md:text-lg md:leading-lg font-bold"><%= ship_form.object.shipping_rates.second.display_cost %></p>
+                        </div>
+                      <% end %>
+                    </div>
+                  </li>
+              </ul>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+
+    <% if Spree::Config[:shipping_instructions] %>
+      <div id="minstrs" data-hook>
+        <h5 class="text-base-plus leading-base-plus md:text-xl md:leading-xl mt-8 mb-6">
+          Special instructions
+        </h5>
+        <%= form.text_area :special_instructions, cols: 40, rows: 4, class: 'w-full px-4 py-3 mb-2 md:text-lg md:leading-lg border border-grey50 text-grey rounded-sm focus:outline-none focus:border-grey disabled:text-grey50' %>
+      </div>
+    <% end %>
+  </div>
+</div>

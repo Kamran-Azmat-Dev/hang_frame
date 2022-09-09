@@ -1,0 +1,17 @@
+<%= render partial: 'spree/admin/shared/error_messages', locals: { target: @object } %>
+
+<% content_for :page_title do %>
+  <%= Spree.t(:new_image) %>
+<% end %>
+
+<%= form_for @object, url: admin_custom_frame_mount_color_custom_frame_mount_preview_images_url, as: :custom_frame_mount_preview_image, html: { multipart: true } do |f| %>
+  <fieldset data-hook="new_image">
+    <%= render partial: 'form', locals: { f: f } %>
+
+    <div class="form-actions" data-hook="buttons">
+      <%= button Spree.t('actions.create'), 'save.svg' %>
+      <span class="or"><%= Spree.t(:or) %></span>
+      <%= button_link_to Spree.t('actions.cancel'), spree.admin_custom_frame_mount_color_custom_frame_mount_preview_images_url(@mount_color), icon: 'delete.svg', id: 'cancel_link' %>
+    </div>
+  </fieldset>
+<% end %>

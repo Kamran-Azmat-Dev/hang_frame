@@ -1,0 +1,10 @@
+<% if target && target.errors.any? %>
+  <div id="errorExplanation" class="bg-yellow" data-hook>
+     <ul class="w-full max-w-screen-xl mx-auto py-4 px-6">
+       <% target.errors.full_messages.each do |msg| %>
+         <li><%= msg %></li>
+       <% end %>
+     </ul>
+     <br>
+  </div>
+<% end %>

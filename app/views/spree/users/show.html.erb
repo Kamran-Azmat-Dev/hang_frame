@@ -1,0 +1,183 @@
+<div class="w-full max-w-screen-xl px-6 mx-auto">
+  <div class="grid md:grid-cols-4 gap-6">
+    <%= render partial: 'spree/shared/account_sidebar', locals: { active: 'orders' } %>
+
+    <div class="md:col-span-3 pt-16 md:pt-29 pb-25">
+      <div class="grid md:grid-cols-9">
+        <div class="md:col-span-1">
+        </div>
+
+        <div id="order-history" class="md:col-span-8">
+          <% if @orders.present? %>
+            <% @orders.each do |order| %>
+              <div class="grid md:grid-cols-8 gap-6">
+                <div class="md:col-span-3">
+                  <h5 class="text-base-plus leading-base-plus md:text-xl md:leading-xl">
+                    Order number
+
+                    <% shipments = order.shipments.trackable %>
+                    <% if shipments.any? %>
+                      <% shipments.each do |shipment| %>
+                        <% if shipment.tracking && shipment.shipping_method %>
+                          <%= link_to('Track shipment', shipment.tracking_url, target: :blank, class: 'text-blue text-xl ml-3') %>
+                        <% end %>
+                      <% end %>
+                    <% end %>
+                  </h5>
+                  <p class="md:text-lg md:leading-lg text-grey50"><%= order.number %></p>
+                  <h5 class="text-base-plus leading-base-plus md:text-xl md:leading-xl mt-6">Delivery address</h5>
+                  <p class="md:text-lg md:leading-lg text-grey50"><%= render 'spree/shared/address', address: order.ship_address %></p>
+                  <h5 class="text-base-plus leading-base-plus md:text-xl md:leading-xl mt-6">Payment method</h5>
+                  <p class="md:text-lg md:leading-lg text-grey50"><%= render collection: order.payments.valid, partial: 'spree/shared/payment' %></p>
+                  <h5 class="text-base-plus leading-base-plus md:text-xl md:leading-xl mt-6">Billing address</h5>
+                  <p class="md:text-lg md:leading-lg text-grey50"><%= render 'spree/shared/address', address: order.bill_address %></p>
+                </div>
+
+                <div class="md:col-span-5">
+                  <% order.frame_line_items.each do |line_item| %>
+                    <% presenter = Checkout::LineItemPresenter.new(line_item) %>
+
+                    <div class="flex flex-wrap items-center">
+                      <% if presenter.custom? %>
+                        <custom-frame-preview
+                          class="w-28 h-28 flex-shrink-0"
+                          namespace="<%= line_item.id %>"
+                          :upload="<%= JSON.dump(presenter.upload_presenter.to_h) %>"
+                          :mount-dimensions="<%= JSON.dump(presenter.mount_dimensions_presenter.to_h) %>"
+                          :foil-blocking-options="{ chosen: false }"
+                          :configuration="<%= JSON.dump(presenter.preview_configuration_presenter.to_h) %>"
+                        >
+                        </custom-frame-preview>
+                      <% else %>
+                        <% default_product_image = default_image_for_product_or_variant(line_item.variant) %>
+                        <% frame_photo = default_product_image.present? ? main_app.url_for(default_product_image.url(:large)) : '' %>
+                        <% frame_photo_variant = default_product_image.present? ? default_product_image.url(:large) : '' %>
+                        <% frame_photo_width = frame_photo_variant.present? ? frame_photo_variant.blob.metadata['width'] : nil %>
+                        <% frame_photo_height = frame_photo_variant.present? ? frame_photo_variant.blob.metadata['height'] : nil %>
+                        <% frame_preview_viewbox = GetFramePreviewViewbox.new.call(default_product_image) %>
+
+                        <standard-frame-preview
+                          class="w-28 h-28 flex-shrink-0"
+                          frame-photo-url="<%= frame_photo %>"
+                          :frame-photo-width="<%= frame_photo_width %>"
+                          :frame-photo-height="<%= frame_photo_height %>"
+                          :frame-preview-x="<%= frame_preview_viewbox.x %>"
+                          :frame-preview-y="<%= frame_preview_viewbox.y %>"
+                          :frame-preview-width="<%= frame_preview_viewbox.width %>"
+                          :frame-preview-height="<%= frame_preview_viewbox.height %>"
+                          :upload="<%= JSON.dump(presenter.upload_presenter.to_h) %>"
+                        >
+                        </standard-frame-preview>
+                      <% end %>
+                      <p class="ml-7 text-base-plus leading-base-plus md:text-xl md:leading-xl"><%= line_item.name %></h5>
+                    </div>
+                    <hr class="border-t border-grey opacity-20 mt-7 mb-8" />
+                  <% end %>
+
+                  <% donation_line_item = order.donation_line_items.first %>
+                  <% if donation_line_item %>
+                    <div class="flex">
+                      <p class="md:text-lg md:leading-lg"><%= donation_line_item.quantity %> tree(s) to <i>Trees for Life:</i></p>
+                      <p class="md:text-lg md:leading-lg ml-auto mr-0"><%= donation_line_item.display_price.to_html %></p>
+                    </div>
+                  <% end %>
+
+                  <div class="flex">
+                    <p class="md:text-lg md:leading-lg"><%= Spree.t(:subtotal) %>:</p>
+                    <p class="md:text-lg md:leading-lg ml-auto mr-0"><%= order.display_item_total_including_custom_frames.to_html %></p>
+                  </div>
+
+                  <% if order.line_item_adjustments.nonzero.exists? %>
+                    <% order.line_item_adjustments.nonzero.promotion.eligible.group_by(&:label).each do |label, adjustments| %>
+                      <div class="flex">
+                        <p class="md:text-lg md:leading-lg"><%= label %></p>
+                        <p class="md:text-lg md:leading-lg ml-auto mr-0"><%= Spree::Money.new(adjustments.sum(&:amount), currency: order.currency).to_html %></p>
+                      </div>
+                    <% end %>
+                  <% end %>
+
+                  <% order.all_adjustments.nonzero.tax.eligible.group_by(&:label).each do |label, adjustments| %>
+                    <div class="flex">
+                      <% tax_total = Spree::Money.new(adjustments.sum(&:amount), currency: order.currency) %>
+                      <p class="md:text-lg md:leading-lg"><%= label %></p>
+                      <p class="md:text-lg md:leading-lg ml-auto mr-0"
+                        data-hook='tax-total'
+                        data-currency='<%= Money::Currency.find(order.currency).symbol %>'
+                        data-non-shipment-tax='<%= adjustments.reject{ |adj| adj.adjustable_type== 'Spree::Shipment'}.sum(&:amount) %>'
+                        thousands-separator='<%= tax_total.thousands_separator %>'
+                        decimal-mark='<%= tax_total.decimal_mark %>'
+                        precision='<%= Money::Currency.find(order.currency).exponent %>'>
+                        <%= tax_total.to_html %>
+                      </p>
+                    </div>
+                  <% end %>
+
+                  <% if order.passed_checkout_step?("address") && order.shipments.any? %>
+                    <% if order.has_free_shipping? %>
+                      <div class="flex">
+                        <p class="md:text-lg md:leading-lg"><%= Spree.t(:shipping) %>:</p>
+                        <p class="md:text-lg md:leading-lg ml-auto mr-0" data-hook="is-free-shipping"><%= Spree.t(:free) %></p>
+                      </div>
+                    <% else %>
+                      <div class="flex">
+                        <p class="md:text-lg md:leading-lg"><%= Spree.t(:shipping) %>:</p>
+                        <% shipping_total = Spree::Money.new(order.shipments.to_a.sum(&:cost), currency: order.currency) %>
+                        <p class="md:text-lg md:leading-lg ml-auto mr-0"
+                          data-hook='shipping-total'
+                          data-currency='<%= Money::Currency.find(order.currency).symbol %>'
+                          thousands-separator='<%= shipping_total.thousands_separator %>'
+                          decimal-mark='<%= shipping_total.decimal_mark %>'
+                          precision='<%= Money::Currency.find(order.currency).exponent %>'
+                        >
+                          <%= shipping_total.to_html %>
+                        </p>
+                      </div>
+
+                      <% if order.shipment_adjustments.nonzero.exists? %>
+                        <% order.shipment_adjustments.nonzero.promotion.eligible.group_by(&:label).each do |label, adjustments| %>
+                          <div class="flex">
+                            <p class="md:text-lg md:leading-lg"><%= label %>:</p>
+                            <p class="md:text-lg md:leading-lg ml-auto mr-0"><%= Spree::Money.new(adjustments.sum(&:amount), currency: order.currency).to_html %></p>
+                          </div>
+                        <% end %>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+
+                  <% if order.adjustments.nonzero.eligible.exists? %>
+                    <% order.adjustments.nonzero.eligible.each do |adjustment| %>
+                      <% next if (adjustment.source_type == 'Spree::TaxRate') and (adjustment.amount.zero?) %>
+                      <div class="flex">
+                        <p class="md:text-lg md:leading-lg"><%= adjustment.label %>:</p>
+                        <p class="md:text-lg md:leading-lg ml-auto mr-0"><%= adjustment.display_amount.to_html %></p>
+                      </div>
+                    <% end %>
+                  <% end %>
+
+                  <div class="flex font-bold">
+                    <p class="md:text-lg md:leading-lg"><%= Spree.t(:total) %>:</p>
+                    <p class="md:text-lg md:leading-lg ml-auto mr-0" id='summary-order-total' data-currency="<%= Money::Currency.find(order.currency).symbol %>">
+                      <%= order.display_total.to_html %>
+                    </p>
+                  </div>
+
+                  <% if order.using_store_credit? %>
+                    <p class="md:text-lg md:leading-lg"><%= Spree.t(:store_credit_name) %>:</p>
+                    <p class="md:text-lg md:leading-lg ml-auto mr-0" id='summary-store-credit'>
+                      <%= order.display_total_applied_store_credit.to_html %>
+                    </p>
+                  <% end %>
+                </div>
+              </div>
+              <hr class="border-t border-grey opacity-20 mt-18 mb-21" />
+            <% end %>
+          <% else %>
+            <p class="text-base-plus leading-base-plus md:text-xl md:leading-xl">
+              You don't have any orders yet.
+            </p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,141 @@
+<div>
+  <% if !try_spree_current_user || try_spree_current_user.email.blank? %>
+  <span style="color: #1D2019; font-size: 20px; font-weight: bold;" >Contact information</span>
+  <div class="mb-6" >Already have an account? <span class="my-1" style=" margin-left: 8px; text-decoration: underline; font-size: 14px;"><%= link_to Spree.t(:login), spree_login_path, class: 'text-base-plus leading-base-plus md:text-xl md:leading-xl mt-4' %></span></div>
+    <div class="mb-8">
+      <%= form.email_field :email, class: 'w-full px-4 py-3 mb-2 md:text-lg md:leading-lg border border-grey50 text-grey rounded-sm focus:outline-none focus:border-grey disabled:text-grey50', required: true, placeholder: Spree.t(:email) %>
+    </div>
+  <% end %>
+  <% ['billing', 'shipping'].each do |address_type|
+    address_name = "#{address_type[0...4]}_address" %>
+    <div class="mb-4" data-hook="<%= address_type %>_fieldset_wrapper">
+      <div id="<%= address_type %>" data-hook>
+        <h5 class="text-base-plus leading-base-plus md:text-xl md:leading-xl mb-6">
+          <%= Spree.t(address_type + '_address') %>
+        </h5>
+        <% if !@order.user.nil? %>
+          <% if  @order.user.addresses.present? %>
+            <% if address_type === 'billing' %>
+              <div style="border: 1px solid rgba(29, 32, 25, 0.5); padding: 16px; border-radius: 4px; color: rgba(29, 32, 25, 0.6); margin-bottom: 34px;">
+                <% @order.user.addresses.take(2).each_with_index do |address, index| %>
+                  <input type="radio" id="<%= index %>" name="radio-group" not(:checked)>
+                    <label class="form-check-label spree-radio-label checkout_address_label" for="<%= index %>" style="width: 100%;">
+                      <span id="first_name"><%= address.firstname %></span>
+                      <span id="last_name"><%= address.lastname %></span>
+                      <p><span id="address1_name"><%= address.address1 %></span></p>
+                      <span id="address2_name"><%= address.address2 %></span>
+                      <span id="city_name"><%= address.city %></span>
+                      <span id="zipcode_name"><%= address.zipcode %></span>
+                      <span id="phone_number"><%= address.phone %></span>
+                      <span id="country_name"><%= address.country %></span>
+                    </label>
+                    <br>
+                    <br>
+                <% end %>
+              </div>
+            <% end %>
+          <% end %>
+        <% end %>
+        <% if address_type == 'shipping' %>
+          <div class="spree-checkbox-container checkout-content-billing-checkbox" data-hook="use_billing">
+            <div class="vspree-checkbox-container mb-8">
+              <%= check_box_tag 'order[use_billing]', '1', @order.shipping_eq_billing_address?, { class: 'vspree-checkbox-input'} %>
+              <%= label_tag :order_use_billing, id: 'use_billing', class: 'vspree-checkbox-label' do %>
+                <p class="text-base-plus leading-base-plus md:text-xl md:leading-xl"><%= Spree.t(:use_billing_address) %></p>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+        <% if user_available_addresses.present? %>
+          <div class="select_address mb-5">
+            <div class="form-group">
+              <% user_available_addresses.each_with_index do |address, idx| %>
+              <div class="mb-3" id="<%= [address_type, dom_id(address)].join('_') %>">
+                <label class="form-check-label spree-radio-label">
+                  <%= form.radio_button "#{address_name}_id", address.id, checked: (address.id == try_spree_current_user["#{address_name}_id"] || idx == 0) %>
+                  <span class="spree-radio-label-custom-input"></span>
+                  <%= render "spree/users/address", address: address %>
+                </label>
+                <%= render "spree/users/address_controls", address: address %>
+              </div>
+              <% end %>
+              <div class="mb-3">
+                <label class="form-check-label spree-radio-label">
+                  <%= form.radio_button "#{address_name}_id", 0, class: 'form-check-input' %> <h4><%= Spree.t('address_book.other_address') %></h4>
+                  <span class="spree-radio-label-custom-input"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        <%= form.fields_for address_name do |address_form| %>
+          <div class="inner checkout-content-inner" data-hook='<%= "#{address_type}_inner" %>'>
+            <%= render partial: 'spree/addresses/form', locals: {
+              address_name: address_name,
+              address_form: address_form,
+              address_type: address_type,
+              address: Spree::Address.default,
+              form: form
+            } %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <%= hidden_field_tag 'save_user_address', true, data: { hook: "save_user_address" } %>
+</div>
+
+<style>
+[type="radio"]:checked,
+[type="radio"]:not(:checked) {
+    position: absolute;
+    left: -9999px;
+}
+[type="radio"]:checked + label,
+[type="radio"]:not(:checked) + label
+{
+    position: relative;
+    padding-left: 28px;
+    cursor: pointer;
+    line-height: 20px;
+    display: inline-block;
+    color: #666;
+}
+[type="radio"]:checked + label:before,
+[type="radio"]:not(:checked) + label:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 18px;
+    height: 18px;
+    border: 1px solid #1D2019;
+    border-radius: 100%;
+    background: #fff;
+}
+[type="radio"]:checked + label:after,
+[type="radio"]:not(:checked) + label:after {
+    content: '';
+    width: 12px;
+    height: 12px;
+    background: #1D2019;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    border-radius: 100%;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+[type="radio"]:not(:checked) + label:after {
+    opacity: 0;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+}
+[type="radio"]:checked + label:after {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+}
+
+</style>

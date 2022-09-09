@@ -1,0 +1,4 @@
+if ENV['KLAVIYO_PUBLIC_API_KEY'] && ENV['KLAVIYO_PRIVATE_API_KEY'] && ENV['KLAVIYO_LIST_ID']
+  Klaviyo.public_api_key = ENV['KLAVIYO_PUBLIC_API_KEY']
+  Klaviyo.private_api_key = ENV['KLAVIYO_PRIVATE_API_KEY']
+end

@@ -1,0 +1,35 @@
+<% @body_id = 'home' %>
+
+<div id="photo-upload">
+  <upload-steps-digital
+    :routes="{
+      uploadPhotoPath: '<%= main_app.api_upload_hang_photo_path %>',
+      getPhotoPreviewPath: '<%= main_app.api_show_hang_photo_path %>',
+      updateCropDetailsPath: '<%= main_app.api_crop_hang_photo_path %>',
+      editCropDetailsPath: '<%= main_app.api_edit_hang_photo_crop_path %>',
+      standardFramesPath: '<%= spree.nested_taxons_path('standard') %>',
+      customFramesPath: '<%= spree.nested_taxons_path('custom') %>',
+      ensureCartPath: '<%= spree.ensure_cart_path %>',
+      getCartPath: '<%= spree.api_v2_storefront_cart_path %>',
+      productPath: '<%= spree.product_path(':id') %>',
+      originalArtUploadPath: '<%= original_art_upload_path %>',
+    }"
+    :standard-print-sizes="<%= JSON.dump(@standard_print_sizes.to_json) %>"
+    <% if params[:clone_line_item_id].present? %>
+      :clone-line-item-id="<%= params[:clone_line_item_id] %>"
+    <% end %>
+    <% if params[:edit_upload_uuid].present? %>
+      edit-upload-uuid="<%= params[:edit_upload_uuid] %>"
+    <% end %>
+    <% if params[:back_to_product].present? %>
+      back-to-product="<%= params[:back_to_product] %>"
+    <% end %>
+    <% if params[:upload_type].present? %>
+      initial-upload-type="<%= params[:upload_type] %>"
+    <% end %>
+    <% if params[:print_size_id].present? %>
+      :initial-print-size-id="<%= params[:print_size_id] %>"
+    <% end %>
+  >
+  </upload-steps-digital>
+</div>
